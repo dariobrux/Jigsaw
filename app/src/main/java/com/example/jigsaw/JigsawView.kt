@@ -21,7 +21,8 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : RecyclerView(co
         items = typedArray.getInt(R.styleable.JigsawView_jv_pieces, items)
         typedArray.recycle()
 
-        layoutManager = GridLayoutManager(context, items)
+        layoutManager = GridLayoutManager(context, items / 2)
+        adapter = JigsawAdapter(context, listOf(Tile(), Tile(), Tile(), Tile()))
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

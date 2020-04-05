@@ -57,8 +57,9 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
         newRect.inset((-DEFAULT_CAP_RADIUS * 2).toInt(), (-DEFAULT_CAP_RADIUS * 2).toInt())  //make the rect larger
         canvas.clipRect(newRect, Region.Op.REPLACE)
 
-        val path = Path()
-        path.addRect(RectManager.rectF, Path.Direction.CCW)
+        val pathDrawer = Path()
+        val pathEraser = Path()
+        pathDrawer.addRect(RectManager.rectF, Path.Direction.CCW)
 
         // Draw the left cap
         when (tile.capLeft) {
@@ -66,10 +67,10 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
                 // Do Nothing
             }
             CapMode.EMPTY -> {
-
+                pathEraser.addCircle(getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
             }
             CapMode.FULL -> {
-                path.addCircle(-DEFAULT_CAP_RADIUS + getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
+                pathDrawer.addCircle(-DEFAULT_CAP_RADIUS + getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
             }
         }
 
@@ -79,10 +80,10 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
                 // Do Nothing
             }
             CapMode.EMPTY -> {
-
+                pathEraser.addCircle(width / 2f, getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
             }
             CapMode.FULL -> {
-                path.addCircle(width / 2f, -DEFAULT_CAP_RADIUS + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
+                pathDrawer.addCircle(width / 2f, -DEFAULT_CAP_RADIUS + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
             }
         }
 
@@ -92,10 +93,10 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
                 // Do Nothing
             }
             CapMode.EMPTY -> {
-
+                pathEraser.addCircle(width.toFloat() - getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
             }
             CapMode.FULL -> {
-                path.addCircle(width.toFloat() + getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
+                pathDrawer.addCircle(width.toFloat() + getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
             }
         }
 
@@ -105,10 +106,10 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
                 // Do Nothing
             }
             CapMode.EMPTY -> {
-
+                pathEraser.addCircle(width / 2f, height.toFloat() - getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
             }
             CapMode.FULL -> {
-                path.addCircle(width / 2f, height.toFloat() + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
+                pathDrawer.addCircle(width / 2f, height.toFloat() + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
             }
         }
 
@@ -120,7 +121,13 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
 //            canvas.clipPath(path2, Region.Op.DIFFERENCE)
 //        }
 
-        canvas.drawPath(path, PaintManager.paint)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            canvas.clipOutPath(pathEraser)
+        } else {
+            canvas.clipPath(pathEraser, Region.Op.DIFFERENCE)
+        }
+
+        canvas.drawPath(pathDrawer, PaintManager.paint)
 
 //        canvas.drawRect(RectManager.rect, PaintManager.paint)
 //
