@@ -13,7 +13,11 @@ import android.view.View
  * Created by Dario Bruzzese
  * on 4/5/2020
  */
-class TileView(context: Context, attributeSet: AttributeSet) : View(context, attributeSet) {
+class TileView(context: Context, attributeSet: AttributeSet?) : View(context, attributeSet) {
+
+    var tile = Tile()
+
+    constructor(context: Context) : this(context, null)
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -56,17 +60,57 @@ class TileView(context: Context, attributeSet: AttributeSet) : View(context, att
         val path = Path()
         path.addRect(RectManager.rectF, Path.Direction.CCW)
 
-        // Draw the right cap
-        path.addCircle(width.toFloat() + getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
-
-        // Draw the bottom cap
-        path.addCircle(width / 2f, height.toFloat() + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
-
         // Draw the left cap
-        path.addCircle(-DEFAULT_CAP_RADIUS + getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
+        when (tile.capLeft) {
+            CapMode.NONE -> {
+                // Do Nothing
+            }
+            CapMode.EMPTY -> {
+
+            }
+            CapMode.FULL -> {
+                path.addCircle(-DEFAULT_CAP_RADIUS + getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
+            }
+        }
 
         // Draw the top cap
-        path.addCircle(width / 2f, -DEFAULT_CAP_RADIUS + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
+        when (tile.capTop) {
+            CapMode.NONE -> {
+                // Do Nothing
+            }
+            CapMode.EMPTY -> {
+
+            }
+            CapMode.FULL -> {
+                path.addCircle(width / 2f, -DEFAULT_CAP_RADIUS + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
+            }
+        }
+
+        // Draw the right cap
+        when (tile.capRight) {
+            CapMode.NONE -> {
+                // Do Nothing
+            }
+            CapMode.EMPTY -> {
+
+            }
+            CapMode.FULL -> {
+                path.addCircle(width.toFloat() + getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
+            }
+        }
+
+        // Draw the bottom cap
+        when (tile.capBottom) {
+            CapMode.NONE -> {
+                // Do Nothing
+            }
+            CapMode.EMPTY -> {
+
+            }
+            CapMode.FULL -> {
+                path.addCircle(width / 2f, height.toFloat() + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
+            }
+        }
 
 //        val path2 = Path()
 //        path2.addCircle(width / 2f, -DEFAULT_CAP_RADIUS + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
