@@ -23,6 +23,8 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : RecyclerView(co
     private var rows = 0
     private var cols = 0
 
+    var engine : Engine
+
     init {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.JigsawView)
         items = typedArray.getInt(R.styleable.JigsawView_jv_pieces, items)
@@ -38,7 +40,7 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : RecyclerView(co
             cols = max(x, y)
         }
 
-        val engine = Engine(items, rows, cols)
+        engine = Engine(items, rows, cols)
 
         layoutManager = GridLayoutManager(context, cols)
         adapter = JigsawAdapter(context, engine.tileList)
@@ -98,6 +100,6 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : RecyclerView(co
 
     companion object {
         const val DEFAULT_TILE_SIZE = 100
-        const val DEFAULT_ITEMS = 4
+        const val DEFAULT_ITEMS = 25
     }
 }

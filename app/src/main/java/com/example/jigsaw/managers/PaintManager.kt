@@ -11,7 +11,7 @@ object PaintManager {
 
     val paint = Paint().apply {
         isAntiAlias = true
-        color = Color.BLACK
+//        color = Color.BLACK
         style = Paint.Style.FILL_AND_STROKE
     }
 }

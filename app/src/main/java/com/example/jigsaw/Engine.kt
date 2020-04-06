@@ -3,6 +3,7 @@ package com.example.jigsaw
 import android.util.Log
 import com.example.jigsaw.enums.CapMode
 import com.example.jigsaw.enums.TilePosition
+import com.example.jigsaw.models.Index
 import com.example.jigsaw.models.Tile
 
 /**
@@ -81,6 +82,7 @@ class Engine(items: Int, private val rows: Int, private val cols: Int) {
                             this.capBottom = CapMode.NONE
                         }
                     }
+                    this.index = Index(i, j)
                 }
                 currentRightCap = tile.capRight
                 currentBottomCapList.add(tile.capBottom)

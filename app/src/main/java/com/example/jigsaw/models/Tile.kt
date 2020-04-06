@@ -12,4 +12,6 @@ class Tile {
     var capTop = CapMode.NONE
     var capRight = CapMode.NONE
     var capBottom = CapMode.NONE
+
+    var index = Index(0, 0)
 }

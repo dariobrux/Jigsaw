@@ -1,17 +1,16 @@
 package com.example.jigsaw.widgets
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Path
-import android.graphics.Rect
-import android.graphics.Region
+import android.graphics.*
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
-import com.example.jigsaw.models.Tile
+import com.example.jigsaw.R
 import com.example.jigsaw.enums.CapMode
 import com.example.jigsaw.managers.PaintManager
 import com.example.jigsaw.managers.RectManager
+import com.example.jigsaw.models.Tile
+
 
 /**
  * Created by Dario Bruzzese
@@ -116,14 +115,12 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
                 pathDrawer.addCircle(width / 2f, height.toFloat() + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
             }
         }
+        val paint = Paint()
+//        paint.style = Paint.Style.FILL_AND_STROKE
+//        paint.color = Color.RED
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.ADD)
 
-//        val path2 = Path()
-//        path2.addCircle(width / 2f, -DEFAULT_CAP_RADIUS + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            canvas.clipOutPath(path2)
-//        } else {
-//            canvas.clipPath(path2, Region.Op.DIFFERENCE)
-//        }
+//        canvas.drawBitmap(cropBitmap1(), -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), 0f, paint)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             canvas.clipOutPath(pathEraser)
@@ -133,24 +130,25 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
 
         canvas.drawPath(pathDrawer, PaintManager.paint)
 
-//        canvas.drawRect(RectManager.rect, PaintManager.paint)
-//
-//        // Draw the right cap
-//        canvas.drawCircle(width.toFloat() + getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, PaintManager.paint)
-//
-//        // Draw the bottom cap
-//        canvas.drawCircle(width / 2f, height.toFloat() + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, PaintManager.paint)
-//
-//        // Draw the left cap
-//        canvas.drawCircle(-DEFAULT_CAP_RADIUS + getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, PaintManager.paint)
+        canvas.drawBitmap(cropBitmap1(), -0f, 0f, paint)
 
-        // Draw the top cap
-//        val paint2 = Paint().apply {
-//            color = Color.TRANSPARENT
-//            style = Paint.Style.FILL_AND_STROKE
-//            xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
-//        }
-//        canvas.drawCircle(width / 2f, -DEFAULT_CAP_RADIUS + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, paint2)
+//        val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.genova)
+//        val croppedBitmap: Bitmap = Bitmap.createBitmap(bitmap, 0, 0, 100, 100)
+//
+    }
+
+    private fun cropBitmap1(): Bitmap {
+        val bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.genova)
+        val iIndex = 0 + (DEFAULT_TILE_SIZE * tile.index.col)
+        val jIndex = 0 + (DEFAULT_TILE_SIZE * tile.index.row)
+        val bmOverlay: Bitmap = Bitmap.createBitmap(bitmap, iIndex, jIndex, (DEFAULT_TILE_SIZE + DEFAULT_CAP_RADIUS + getCapRadiusToShow()).toInt(), (DEFAULT_TILE_SIZE + DEFAULT_CAP_RADIUS + getCapRadiusToShow()).toInt())
+//        val bmOverlay = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888)
+        val paint = Paint()
+        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.ADD)
+        val canvas = Canvas(bmOverlay)
+//        canvas.drawBitmap(bitmap, 0f, 0f, null)
+//        canvas.drawRect(0f, 0f, 100f, 100f, paint)
+        return bmOverlay
     }
 
     private fun getCapRadiusToShow() = DEFAULT_CAP_RADIUS / 2

@@ -21,6 +21,7 @@ class JigsawAdapter(private val context: Context, private val itemList: List<Til
         holder.tileView.tile.capTop = item.capTop
         holder.tileView.tile.capRight = item.capRight
         holder.tileView.tile.capBottom = item.capBottom
+        holder.tileView.tile.index = item.index
     }
 
     override fun getItemCount(): Int {
