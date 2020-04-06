@@ -6,7 +6,15 @@ package com.example.jigsaw
  */
 
 enum class CapMode {
-    NONE,
-    EMPTY,
-    FULL
+    NONE {
+        override fun inverse(): CapMode = NONE
+    },
+    EMPTY {
+        override fun inverse(): CapMode = FULL
+    },
+    FULL {
+        override fun inverse(): CapMode = EMPTY
+    };
+
+    abstract fun inverse(): CapMode
 }

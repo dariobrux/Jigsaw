@@ -2,10 +2,12 @@ package com.example.jigsaw
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
+import kotlin.math.floor
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.sqrt
 
 /**
  * Created by Dario Bruzzese
@@ -15,21 +17,35 @@ import androidx.recyclerview.widget.RecyclerView
 class JigsawView(context: Context, attributeSet: AttributeSet) : RecyclerView(context, attributeSet) {
 
     private var items = DEFAULT_ITEMS
+    private var rows = 0
+    private var cols = 0
 
     init {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.JigsawView)
         items = typedArray.getInt(R.styleable.JigsawView_jv_pieces, items)
         typedArray.recycle()
 
-        layoutManager = GridLayoutManager(context, items / 2)
-        adapter = JigsawAdapter(context, listOf(Tile(), Tile(), Tile(), Tile()))
+        if (isPerfectSquare(items)) {
+            rows = getRows()
+            cols = getCols()
+        } else {
+            val x = getDivisor(items)
+            val y = items / x // 2
+            rows = min(x, y)
+            cols = max(x, y)
+        }
+
+        val tileMatrix = Matrix(items, rows, cols)
+
+        layoutManager = GridLayoutManager(context, cols)
+        adapter = JigsawAdapter(context, tileMatrix.result)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        val desiredWidth = (suggestedMinimumWidth + paddingLeft + paddingRight) + ((items / 2) * DEFAULT_TILE_SIZE)
-        val desiredHeight = (suggestedMinimumHeight + paddingTop + paddingBottom) + ((items / 2) * DEFAULT_TILE_SIZE)
+        val desiredWidth = (suggestedMinimumWidth + paddingLeft + paddingRight) + ((cols) * DEFAULT_TILE_SIZE)
+        val desiredHeight = (suggestedMinimumHeight + paddingTop + paddingBottom) + ((rows) * DEFAULT_TILE_SIZE)
 
         setMeasuredDimension(
             measureDimension(desiredWidth, widthMeasureSpec),
@@ -46,15 +62,36 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : RecyclerView(co
         } else {
             result = desiredSize
             if (specMode == MeasureSpec.AT_MOST) {
-                result = Math.min(result, specSize)
+                result = result.coerceAtMost(specSize)
             }
-        }
-        if (result < desiredSize) {
-            Log.e("ChartView", "The view is too small, the content might get cut")
         }
         return result
     }
 
+    private fun isPerfectSquare(x: Int): Boolean {
+        val sq = sqrt(x.toDouble())
+        return sq - floor(sq) == 0.0
+    }
+
+    private fun getDivisor(x: Int): Int {
+        return when {
+            x % 4 == 0 -> {
+                4
+            }
+            x % 3 == 0 -> {
+                3
+            }
+            x % 2 == 0 -> {
+                2
+            }
+            else -> {
+                x
+            }
+        }
+    }
+
+    private fun getRows(): Int = sqrt(items.toDouble()).toInt()
+    private fun getCols(): Int = sqrt(items.toDouble()).toInt()
 
     companion object {
         const val DEFAULT_TILE_SIZE = 100

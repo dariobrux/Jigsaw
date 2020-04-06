@@ -6,8 +6,8 @@ package com.example.jigsaw
  */
 
 class Tile {
-    var capLeft = CapMode.EMPTY
-    var capTop = CapMode.FULL
-    var capRight = CapMode.EMPTY
-    var capBottom = CapMode.EMPTY
+    var capLeft = CapMode.NONE
+    var capTop = CapMode.NONE
+    var capRight = CapMode.NONE
+    var capBottom = CapMode.NONE
 }
