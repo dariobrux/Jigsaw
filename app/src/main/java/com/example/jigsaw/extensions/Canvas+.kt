@@ -1,4 +1,4 @@
-package com.example.jigsaw
+package com.example.jigsaw.extensions
 
 import android.graphics.Canvas
 import android.graphics.Paint

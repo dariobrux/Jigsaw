@@ -1,11 +1,12 @@
-package com.example.jigsaw
+package com.example.jigsaw.adapters
 
 import android.content.Context
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.jigsaw.JigsawAdapter.CustomViewHolder
+import com.example.jigsaw.models.Tile
+import com.example.jigsaw.widgets.TileView
+import com.example.jigsaw.adapters.JigsawAdapter.CustomViewHolder
 
 class JigsawAdapter(private val context: Context, private val itemList: List<Tile>?) : RecyclerView.Adapter<CustomViewHolder>() {
 

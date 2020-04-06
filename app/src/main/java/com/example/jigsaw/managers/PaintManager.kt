@@ -1,4 +1,4 @@
-package com.example.jigsaw
+package com.example.jigsaw.managers
 
 import android.graphics.Color
 import android.graphics.Paint

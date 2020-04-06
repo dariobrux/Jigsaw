@@ -1,4 +1,4 @@
-package com.example.jigsaw
+package com.example.jigsaw.enums
 
 /**
  * Created by Dario Bruzzese

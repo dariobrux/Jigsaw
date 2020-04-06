@@ -1,4 +1,4 @@
-package com.example.jigsaw
+package com.example.jigsaw.managers
 
 import android.graphics.Rect
 import android.graphics.RectF

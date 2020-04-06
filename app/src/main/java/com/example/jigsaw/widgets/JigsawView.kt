@@ -1,9 +1,12 @@
-package com.example.jigsaw
+package com.example.jigsaw.widgets
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.jigsaw.Engine
+import com.example.jigsaw.R
+import com.example.jigsaw.adapters.JigsawAdapter
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
@@ -35,10 +38,10 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : RecyclerView(co
             cols = max(x, y)
         }
 
-        val tileMatrix = Matrix(items, rows, cols)
+        val engine = Engine(items, rows, cols)
 
         layoutManager = GridLayoutManager(context, cols)
-        adapter = JigsawAdapter(context, tileMatrix.result)
+        adapter = JigsawAdapter(context, engine.tileList)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

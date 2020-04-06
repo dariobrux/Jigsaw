@@ -1,4 +1,6 @@
-package com.example.jigsaw
+package com.example.jigsaw.models
+
+import com.example.jigsaw.enums.CapMode
 
 /**
  * Created by Dario Bruzzese

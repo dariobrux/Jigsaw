@@ -1,4 +1,4 @@
-package com.example.jigsaw
+package com.example.jigsaw.widgets
 
 import android.content.Context
 import android.graphics.Canvas
@@ -8,6 +8,10 @@ import android.graphics.Region
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
+import com.example.jigsaw.models.Tile
+import com.example.jigsaw.enums.CapMode
+import com.example.jigsaw.managers.PaintManager
+import com.example.jigsaw.managers.RectManager
 
 /**
  * Created by Dario Bruzzese
