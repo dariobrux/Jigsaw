@@ -1,7 +1,8 @@
 package com.example.jigsaw.managers
 
-import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
 
 /**
  * Created by Dario Bruzzese
@@ -9,9 +10,7 @@ import android.graphics.Paint
  */
 object PaintManager {
 
-    val paint = Paint().apply {
-        isAntiAlias = true
-//        color = Color.BLACK
-        style = Paint.Style.FILL_AND_STROKE
+    val bitmapPaint = Paint().apply {
+        xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
     }
 }

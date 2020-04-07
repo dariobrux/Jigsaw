@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.jigsaw.Constants.DEFAULT_ITEMS
+import com.example.jigsaw.Constants.DEFAULT_TILE_SIZE
 import com.example.jigsaw.Engine
 import com.example.jigsaw.R
 import com.example.jigsaw.adapters.JigsawAdapter
@@ -19,15 +21,15 @@ import kotlin.math.sqrt
 
 class JigsawView(context: Context, attributeSet: AttributeSet) : RecyclerView(context, attributeSet) {
 
-    private var items = DEFAULT_ITEMS
+    private var items = 0
     private var rows = 0
     private var cols = 0
 
-    var engine : Engine
+    var engine: Engine
 
     init {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.JigsawView)
-        items = typedArray.getInt(R.styleable.JigsawView_jv_pieces, items)
+        items = typedArray.getInt(R.styleable.JigsawView_jv_pieces, DEFAULT_ITEMS)
         typedArray.recycle()
 
         if (isPerfectSquare(items)) {
@@ -97,9 +99,4 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : RecyclerView(co
 
     private fun getRows(): Int = sqrt(items.toDouble()).toInt()
     private fun getCols(): Int = sqrt(items.toDouble()).toInt()
-
-    companion object {
-        const val DEFAULT_TILE_SIZE = 100
-        const val DEFAULT_ITEMS = 25
-    }
 }

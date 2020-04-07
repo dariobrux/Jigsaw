@@ -5,8 +5,11 @@ import android.graphics.*
 import android.os.Build
 import android.util.AttributeSet
 import android.view.View
+import com.example.jigsaw.Constants.DEFAULT_CAP_RADIUS
+import com.example.jigsaw.Constants.DEFAULT_TILE_SIZE
 import com.example.jigsaw.R
 import com.example.jigsaw.enums.CapMode
+import com.example.jigsaw.managers.PaintManager
 import com.example.jigsaw.managers.RectManager
 import com.example.jigsaw.models.Tile
 
@@ -61,7 +64,12 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
 
         val newRect: Rect = canvas.clipBounds
         newRect.inset((-DEFAULT_CAP_RADIUS * 2).toInt(), (-DEFAULT_CAP_RADIUS * 2).toInt())  //make the rect larger
-        canvas.clipRect(newRect, Region.Op.REPLACE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // TODO check if it works
+            canvas.clipOutRect(newRect)
+        } else {
+            canvas.clipRect(newRect, Region.Op.REPLACE)
+        }
 
         pathDrawer.addRect(RectManager.rectF, Path.Direction.CCW)
 
@@ -137,15 +145,8 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
             bitmapSize.toInt()
         )
         canvas.clipPath(pathDrawer)
-        val bPaint = Paint()
-        bPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-        canvas.drawBitmap(bmOverlay, -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), bPaint);
+        canvas.drawBitmap(bmOverlay, -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), PaintManager.bitmapPaint);
     }
 
     private fun getCapRadiusToShow() = DEFAULT_CAP_RADIUS / 2
-
-    companion object {
-        const val DEFAULT_TILE_SIZE = 100
-        const val DEFAULT_CAP_RADIUS = 15f
-    }
 }
