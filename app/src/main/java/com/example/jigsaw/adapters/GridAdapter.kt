@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.jigsaw.models.Tile
 import com.example.jigsaw.widgets.TileView
-import com.example.jigsaw.adapters.JigsawAdapter.CustomViewHolder
+import com.example.jigsaw.adapters.GridAdapter.CustomViewHolder
 
-class JigsawAdapter(private val context: Context, private val itemList: List<Tile>?) : RecyclerView.Adapter<CustomViewHolder>() {
+class GridAdapter(private val context: Context, private val itemList: List<Tile>?) : RecyclerView.Adapter<CustomViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): CustomViewHolder {
         val view = TileView(context)
