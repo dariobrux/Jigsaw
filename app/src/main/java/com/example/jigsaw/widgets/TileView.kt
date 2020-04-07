@@ -31,7 +31,6 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
-        val size = (DEFAULT_TILE_SIZE + DEFAULT_CAP_RADIUS).toInt()
         val desiredWidth = (DEFAULT_TILE_SIZE + paddingLeft + paddingRight)
         val desiredHeight = (DEFAULT_TILE_SIZE + paddingTop + paddingBottom)
 

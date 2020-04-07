@@ -37,7 +37,7 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : RecyclerView(co
             cols = getCols()
         } else {
             val x = getDivisor(items)
-            val y = items / x // 2
+            val y = items / x
             rows = min(x, y)
             cols = max(x, y)
         }
