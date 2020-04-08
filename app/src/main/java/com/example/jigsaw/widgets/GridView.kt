@@ -18,11 +18,11 @@ class GridView(context: Context, attributeSet: AttributeSet) : RecyclerView(cont
     var rows = 0
     var cols = 0
 
-    fun init(tileList: List<Tile>, rows: Int, cols: Int) {
+    fun init(tileList: List<Tile>, rows: Int, cols: Int, smallTiles: Boolean) {
         this.rows = rows
         this.cols = cols
         layoutManager = GridLayoutManager(context, cols)
-        adapter = GridAdapter(context, tileList.subList(0, 1))
+        adapter = GridAdapter(context, tileList, smallTiles)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

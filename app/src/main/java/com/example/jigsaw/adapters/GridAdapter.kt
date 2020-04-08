@@ -8,7 +8,7 @@ import com.example.jigsaw.models.Tile
 import com.example.jigsaw.widgets.TileView
 import com.example.jigsaw.adapters.GridAdapter.CustomViewHolder
 
-class GridAdapter(private val context: Context, private val itemList: List<Tile>?) : RecyclerView.Adapter<CustomViewHolder>() {
+class GridAdapter(private val context: Context, private val itemList: List<Tile>?, private val smallTiles: Boolean) : RecyclerView.Adapter<CustomViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): CustomViewHolder {
         val view = TileView(context)
@@ -30,5 +30,11 @@ class GridAdapter(private val context: Context, private val itemList: List<Tile>
 
     inner class CustomViewHolder(view: TileView) : ViewHolder(view) {
         var tileView = view
+
+        init {
+            if (smallTiles) {
+                view.animate().scaleY(0.65f).scaleX(0.65f).setDuration(0).start()
+            }
+        }
     }
 }
