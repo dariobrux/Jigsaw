@@ -4,15 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.jigsaw.Constants.DEFAULT_ITEMS
 import com.example.jigsaw.Constants.DEFAULT_TILE_SIZE
-import com.example.jigsaw.Engine
-import com.example.jigsaw.R
 import com.example.jigsaw.adapters.GridAdapter
-import kotlin.math.floor
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.sqrt
+import com.example.jigsaw.models.Tile
 
 /**
  * Created by Dario Bruzzese
@@ -21,31 +15,14 @@ import kotlin.math.sqrt
 
 class GridView(context: Context, attributeSet: AttributeSet) : RecyclerView(context, attributeSet) {
 
-    private var items = 0
-    private var rows = 0
-    private var cols = 0
+    var rows = 0
+    var cols = 0
 
-    var engine: Engine
-
-    init {
-        val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.GridView)
-        items = typedArray.getInt(R.styleable.GridView_jv_pieces, DEFAULT_ITEMS)
-        typedArray.recycle()
-
-        if (isPerfectSquare(items)) {
-            rows = getRows()
-            cols = getCols()
-        } else {
-            val x = getDivisor(items)
-            val y = items / x
-            rows = min(x, y)
-            cols = max(x, y)
-        }
-
-        engine = Engine(items, rows, cols)
-
+    fun init(tileList: List<Tile>, rows: Int, cols: Int) {
+        this.rows = rows
+        this.cols = cols
         layoutManager = GridLayoutManager(context, cols)
-        adapter = GridAdapter(context, engine.tileList)
+        adapter = GridAdapter(context, tileList.subList(0, 1))
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -74,29 +51,4 @@ class GridView(context: Context, attributeSet: AttributeSet) : RecyclerView(cont
         }
         return result
     }
-
-    private fun isPerfectSquare(x: Int): Boolean {
-        val sq = sqrt(x.toDouble())
-        return sq - floor(sq) == 0.0
-    }
-
-    private fun getDivisor(x: Int): Int {
-        return when {
-            x % 4 == 0 -> {
-                4
-            }
-            x % 3 == 0 -> {
-                3
-            }
-            x % 2 == 0 -> {
-                2
-            }
-            else -> {
-                x
-            }
-        }
-    }
-
-    private fun getRows(): Int = sqrt(items.toDouble()).toInt()
-    private fun getCols(): Int = sqrt(items.toDouble()).toInt()
 }

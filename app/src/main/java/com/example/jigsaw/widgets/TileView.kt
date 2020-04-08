@@ -34,28 +34,7 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
         val desiredWidth = (DEFAULT_TILE_SIZE + paddingLeft + paddingRight)
         val desiredHeight = (DEFAULT_TILE_SIZE + paddingTop + paddingBottom)
 
-        setMeasuredDimension(
-            measureDimension(desiredWidth, widthMeasureSpec),
-            measureDimension(desiredHeight, heightMeasureSpec)
-        )
-    }
-
-    private fun measureDimension(desiredSize: Int, measureSpec: Int): Int {
-        var result: Int
-        val specMode = MeasureSpec.getMode(measureSpec)
-        val specSize = MeasureSpec.getSize(measureSpec)
-        when (specMode) {
-            MeasureSpec.EXACTLY -> {
-                result = specSize
-            }
-            else -> {
-                result = desiredSize
-                if (specMode == MeasureSpec.AT_MOST) {
-                    result = result.coerceAtMost(specSize)
-                }
-            }
-        }
-        return result
+        setMeasuredDimension(desiredWidth, desiredHeight)
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -64,7 +43,7 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
         val newRect: Rect = canvas.clipBounds
         newRect.inset((-DEFAULT_CAP_RADIUS * 2).toInt(), (-DEFAULT_CAP_RADIUS * 2).toInt())  //make the rect larger
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // TODO check if it works
+            // TODO check if this case works.
             canvas.clipOutRect(newRect)
         } else {
             canvas.clipRect(newRect, Region.Op.REPLACE)
