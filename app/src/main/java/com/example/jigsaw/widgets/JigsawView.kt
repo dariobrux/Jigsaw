@@ -2,6 +2,8 @@ package com.example.jigsaw.widgets
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.View
 import android.widget.FrameLayout
 import com.example.jigsaw.Constants
 import com.example.jigsaw.Engine
@@ -17,7 +19,7 @@ import kotlin.math.sqrt
  * on 4/8/2020
  */
 
-class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
+class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet), SpreadView.OnTileListener {
 
     private var rows = 0
     private var cols = 0
@@ -43,7 +45,7 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
         val engine = Engine(items, rows, cols)
 
         gridView.init(engine.tileList, rows, cols)
-        spreadView.init(engine.tileList)
+        spreadView.init(engine.tileList, this)
 
 //        val firstTile = gridView.engine.tileList.first()
 //        tile.tile.apply {
@@ -79,4 +81,36 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
 
     private fun getRows(): Int = sqrt(items.toDouble()).toInt()
     private fun getCols(): Int = sqrt(items.toDouble()).toInt()
+
+    private var _xDelta = 0
+    private var _yDelta = 0
+    override fun onTileMove(view: View, event: MotionEvent): Boolean {
+        val X = event.rawX.toInt()
+        val Y = event.rawY.toInt()
+        when (event.action and MotionEvent.ACTION_MASK) {
+            MotionEvent.ACTION_DOWN -> {
+                val lParams = view.layoutParams as FrameLayout.LayoutParams
+                _xDelta = X - lParams.leftMargin
+                _yDelta = Y - lParams.topMargin
+            }
+            MotionEvent.ACTION_UP -> {
+                // Do nothing
+            }
+            MotionEvent.ACTION_POINTER_DOWN -> {
+                // Do nothing
+            }
+            MotionEvent.ACTION_POINTER_UP -> {
+                // Do nothing
+            }
+            MotionEvent.ACTION_MOVE -> {
+                val layoutParams = view.layoutParams as FrameLayout.LayoutParams
+                layoutParams.leftMargin = X - _xDelta
+                layoutParams.topMargin = Y - _yDelta
+                layoutParams.rightMargin = -250
+                layoutParams.bottomMargin = -250
+                view.layoutParams = layoutParams
+            }
+        }
+        return true
+    }
 }

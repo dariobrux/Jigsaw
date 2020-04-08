@@ -4,7 +4,10 @@ import android.content.Context
 import android.graphics.*
 import android.os.Build
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
+import android.widget.FrameLayout
+import android.widget.RelativeLayout
 import com.example.jigsaw.Constants.DEFAULT_CAP_RADIUS
 import com.example.jigsaw.Constants.DEFAULT_TILE_SIZE
 import com.example.jigsaw.R
@@ -123,7 +126,7 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
             bitmapSize.toInt()
         )
         canvas.clipPath(pathDrawer)
-        canvas.drawBitmap(bmOverlay, -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), PaintManager.bitmapPaint);
+        canvas.drawBitmap(bmOverlay, -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), PaintManager.bitmapPaint)
     }
 
     private fun getCapRadiusToShow() = DEFAULT_CAP_RADIUS / 2

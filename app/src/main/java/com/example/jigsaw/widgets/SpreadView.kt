@@ -2,6 +2,8 @@ package com.example.jigsaw.widgets
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
+import android.view.View
 import android.view.ViewTreeObserver
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.FrameLayout
@@ -16,14 +18,18 @@ import com.example.jigsaw.models.Tile
 
 class SpreadView(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
 
-    fun init(tileList: ArrayList<Tile>) {
+    interface OnTileListener {
+        fun onTileMove(view: View, motionEvent: MotionEvent): Boolean
+    }
+
+    fun init(tileList: ArrayList<Tile>, onTileListener: OnTileListener) {
 
         val viewTreeObserver: ViewTreeObserver = viewTreeObserver
         if (viewTreeObserver.isAlive) {
             viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     getViewTreeObserver().removeOnGlobalLayoutListener(this)
-                    addTiles(tileList)
+                    addTiles(tileList, onTileListener)
 //                    viewWidth = view.getWidth()
 //                    viewHeight = view.getHeight()
                 }
@@ -31,11 +37,14 @@ class SpreadView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
         }
     }
 
-    private fun addTiles(tileList: java.util.ArrayList<Tile>) {
+    private fun addTiles(tileList: java.util.ArrayList<Tile>, onTileListener: OnTileListener) {
         tileList.shuffled().forEach { tile ->
+
             val tileView = TileView(context).apply {
                 this.tile = tile
+                this.setOnTouchListener { view, motionEvent -> onTileListener.onTileMove(view, motionEvent) }
             }
+
             addView(tileView)
 
             val leftRange = IntRange(
@@ -50,6 +59,13 @@ class SpreadView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
 
             (tileView.layoutParams as MarginLayoutParams).leftMargin = leftRange.shuffled().first()
             (tileView.layoutParams as MarginLayoutParams).topMargin = topRange.shuffled().first()
+
+//            tileView.outlineProvider = ViewOutlineProvider.BOUNDS
+//            tileView.setBackgroundColor(Color.TRANSPARENT)
+//            tileView.elevation = 20f
+
+            tileView.animate().scaleX(0.75f).scaleY(0.75f).setDuration(0).startDelay
+            tileView.bringToFront()
         }
     }
 }
