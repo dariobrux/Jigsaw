@@ -1,6 +1,7 @@
 package com.example.jigsaw.interfaces
 
-import com.example.jigsaw.models.Tile
+import android.view.View
+import com.example.jigsaw.models.TileFull
 import com.example.jigsaw.widgets.TileView
 
 /**
@@ -8,5 +9,6 @@ import com.example.jigsaw.widgets.TileView
  * on 4/9/2020
  */
 interface OnTileSelectedListener {
-    fun onTileSelected(view: TileView, tile: Tile)
+    fun onTileSelected(view: TileView, tile: TileFull)
+    fun onEmptySelected(view: View, position: Int)
 }

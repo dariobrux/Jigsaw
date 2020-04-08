@@ -1,15 +1,17 @@
 package com.example.jigsaw.widgets
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import com.example.jigsaw.Constants
 import com.example.jigsaw.Engine
 import com.example.jigsaw.R
+import com.example.jigsaw.adapters.GridAdapter
 import com.example.jigsaw.interfaces.OnTileSelectedListener
 import com.example.jigsaw.models.Tile
+import com.example.jigsaw.models.TileFull
 import kotlinx.android.synthetic.main.layout_jigsaw.view.*
 import kotlin.math.floor
 import kotlin.math.max
@@ -26,6 +28,9 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     private var rows = 0
     private var cols = 0
     private var items = 0
+
+    private val engine: Engine
+    private var selectedTile: Tile? = null
 
     init {
         inflate(getContext(), R.layout.layout_jigsaw, this)
@@ -44,18 +49,10 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
             cols = max(x, y)
         }
 
-        val engine = Engine(items, rows, cols)
+        engine = Engine(context, items, rows, cols)
 
-        gridView.init(emptyList(), rows, cols, false, this)
-        spreadView.init(engine.tileList.shuffled(), rows, cols, true, this)
-
-//        val firstTile = gridView.engine.tileList.first()
-//        tile.tile.apply {
-//            this.capLeft = firstTile.capLeft
-//            this.capTop = firstTile.capTop
-//            this.capRight = firstTile.capRight
-//            this.capBottom = firstTile.capBottom
-//        }
+        gridView.init(engine.tileEmptyList, rows, cols, false, this)
+        spreadView.init(engine.tileFullList.shuffled().toMutableList(), rows, cols, true, this)
     }
 
 
@@ -84,7 +81,16 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     private fun getRows(): Int = sqrt(items.toDouble()).toInt()
     private fun getCols(): Int = sqrt(items.toDouble()).toInt()
 
-    override fun onTileSelected(view: TileView, tile: Tile) {
-        TODO("Not yet implemented")
+    override fun onTileSelected(view: TileView, tile: TileFull) {
+        selectedTile = tile
+    }
+
+    override fun onEmptySelected(view: View, position: Int) {
+        if (selectedTile == null) {
+            return
+        }
+        val x = position
+        (gridView.adapter!! as GridAdapter).itemList[position] = selectedTile!!
+        gridView.adapter!!.notifyItemChanged(position)
     }
 }

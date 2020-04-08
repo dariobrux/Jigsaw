@@ -1,22 +1,30 @@
 package com.example.jigsaw
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import com.example.jigsaw.enums.CapMode
 import com.example.jigsaw.enums.TilePosition
+import com.example.jigsaw.models.TileEmpty
 import com.example.jigsaw.models.Index
 import com.example.jigsaw.models.Tile
+import com.example.jigsaw.models.TileFull
 
 /**
  * Created by Dario Bruzzese
  * on 4/5/2020
  */
-class Engine(items: Int, private val rows: Int, private val cols: Int) {
+class Engine(context: Context, items: Int, private val rows: Int, private val cols: Int) {
 
-    var tileList = arrayListOf<Tile>()
+    var tileFullList = arrayListOf<Tile>()
+    var tileEmptyList = arrayListOf<Tile>()
 
     init {
 
         Log.d("Engine", "$items items is -> ${rows}x$cols")
+
+        val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.genova)
 
         var currentRightCap: CapMode = getRandomCapMode()
         val currentBottomCapList = mutableListOf<CapMode>()
@@ -25,7 +33,7 @@ class Engine(items: Int, private val rows: Int, private val cols: Int) {
             repeat(cols) { j ->
                 val position = getPosition(i, j)
                 Log.d("Engine", "$i, $j -> $position ")
-                val tile = Tile().apply {
+                val tile = TileFull().apply {
                     when (position) {
                         TilePosition.LEFT_TOP -> {
                             this.capLeft = CapMode.NONE
@@ -83,10 +91,24 @@ class Engine(items: Int, private val rows: Int, private val cols: Int) {
                         }
                     }
                     this.index = Index(i, j)
+
+                    val iIndex = 0 + (Constants.DEFAULT_TILE_SIZE * j)
+                    val jIndex = 0 + (Constants.DEFAULT_TILE_SIZE * i)
+
+                    val bitmapSize = Constants.DEFAULT_TILE_SIZE + 2 * (Constants.DEFAULT_CAP_RADIUS + getCapRadiusToShow())
+
+                    this.bitmap = Bitmap.createBitmap(
+                        bitmap,
+                        iIndex,
+                        jIndex,
+                        bitmapSize.toInt(),
+                        bitmapSize.toInt()
+                    )
                 }
                 currentRightCap = tile.capRight
                 currentBottomCapList.add(tile.capBottom)
-                tileList.add(tile)
+                tileFullList.add(tile)
+                tileEmptyList.add(TileEmpty())
                 Log.d("Engine", "$i, $j -> $currentBottomCapList ")
             }
             if (i != 0) {
@@ -99,6 +121,7 @@ class Engine(items: Int, private val rows: Int, private val cols: Int) {
         return listOf(CapMode.FULL, CapMode.EMPTY).shuffled().first()
     }
 
+    private fun getCapRadiusToShow() = Constants.DEFAULT_CAP_RADIUS / 2
 
     private fun getPosition(row: Int, col: Int): TilePosition {
         return if (!(row == 0 || col == 0 || row == rows - 1 || col == cols - 1)) {

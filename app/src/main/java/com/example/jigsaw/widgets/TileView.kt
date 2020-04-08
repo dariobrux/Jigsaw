@@ -14,7 +14,7 @@ import com.example.jigsaw.R
 import com.example.jigsaw.enums.CapMode
 import com.example.jigsaw.managers.PaintManager
 import com.example.jigsaw.managers.RectManager
-import com.example.jigsaw.models.Tile
+import com.example.jigsaw.models.TileFull
 
 
 /**
@@ -23,11 +23,10 @@ import com.example.jigsaw.models.Tile
  */
 class TileView(context: Context, attributeSet: AttributeSet?) : View(context, attributeSet) {
 
-    var tile = Tile()
+    var tile = TileFull()
 
     private val pathDrawer = Path()
     private val pathEraser = Path()
-    private val bitmap = BitmapFactory.decodeResource(this.resources, R.drawable.genova)
 
     constructor(context: Context) : this(context, null)
 
@@ -112,21 +111,11 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
             canvas.clipPath(pathEraser, Region.Op.DIFFERENCE)
         }
 
-
-        val iIndex = 0 + (DEFAULT_TILE_SIZE * tile.index.col)
-        val jIndex = 0 + (DEFAULT_TILE_SIZE * tile.index.row)
-
-        val bitmapSize = DEFAULT_TILE_SIZE + 2 * (DEFAULT_CAP_RADIUS + getCapRadiusToShow())
-
-        val bmOverlay: Bitmap = Bitmap.createBitmap(
-            bitmap,
-            iIndex,
-            jIndex,
-            bitmapSize.toInt(),
-            bitmapSize.toInt()
-        )
         canvas.clipPath(pathDrawer)
-        canvas.drawBitmap(bmOverlay, -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), PaintManager.bitmapPaint)
+
+        tile.bitmap?.let {
+            canvas.drawBitmap(it, -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), PaintManager.bitmapPaint)
+        }
     }
 
     private fun getCapRadiusToShow() = DEFAULT_CAP_RADIUS / 2

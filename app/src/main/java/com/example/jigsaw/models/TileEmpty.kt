@@ -5,4 +5,4 @@ package com.example.jigsaw.models
  * on 4/9/2020
  */
 
-open class Tile
+class TileEmpty : Tile()

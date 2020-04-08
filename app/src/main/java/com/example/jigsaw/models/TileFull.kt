@@ -1,5 +1,6 @@
 package com.example.jigsaw.models
 
+import android.graphics.Bitmap
 import com.example.jigsaw.enums.CapMode
 
 /**
@@ -7,11 +8,13 @@ import com.example.jigsaw.enums.CapMode
  * on 4/5/2020
  */
 
-class Tile {
+class TileFull : Tile() {
     var capLeft = CapMode.NONE
     var capTop = CapMode.NONE
     var capRight = CapMode.NONE
     var capBottom = CapMode.NONE
 
     var index = Index(0, 0)
+
+    var bitmap : Bitmap? = null
 }
