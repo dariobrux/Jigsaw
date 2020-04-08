@@ -8,6 +8,8 @@ import android.widget.FrameLayout
 import com.example.jigsaw.Constants
 import com.example.jigsaw.Engine
 import com.example.jigsaw.R
+import com.example.jigsaw.interfaces.OnTileSelectedListener
+import com.example.jigsaw.models.Tile
 import kotlinx.android.synthetic.main.layout_jigsaw.view.*
 import kotlin.math.floor
 import kotlin.math.max
@@ -19,7 +21,7 @@ import kotlin.math.sqrt
  * on 4/8/2020
  */
 
-class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
+class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet), OnTileSelectedListener {
 
     private var rows = 0
     private var cols = 0
@@ -44,8 +46,8 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
 
         val engine = Engine(items, rows, cols)
 
-        gridView.init(emptyList(), rows, cols, false)
-        spreadView.init(engine.tileList.shuffled(), rows, cols, true)
+        gridView.init(emptyList(), rows, cols, false, this)
+        spreadView.init(engine.tileList.shuffled(), rows, cols, true, this)
 
 //        val firstTile = gridView.engine.tileList.first()
 //        tile.tile.apply {
@@ -81,4 +83,8 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
 
     private fun getRows(): Int = sqrt(items.toDouble()).toInt()
     private fun getCols(): Int = sqrt(items.toDouble()).toInt()
+
+    override fun onTileSelected(view: TileView, tile: Tile) {
+        TODO("Not yet implemented")
+    }
 }
