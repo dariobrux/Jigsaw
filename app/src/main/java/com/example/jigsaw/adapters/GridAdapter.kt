@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+//import com.example.jigsaw.Constants.DEFAULT_SMALL_TILE_SCALE
+import com.example.jigsaw.interfaces.OnJigsawListenerAdapter
 import com.example.jigsaw.interfaces.OnTileSelectedListener
 import com.example.jigsaw.models.Tile
 import com.example.jigsaw.models.TileEmpty
@@ -12,7 +14,10 @@ import com.example.jigsaw.models.TileFull
 import com.example.jigsaw.widgets.TileView
 
 
-class GridAdapter(private val context: Context, val itemList: MutableList<Tile>, private val smallTiles: Boolean, private val onTileSelectedListener: OnTileSelectedListener?) : RecyclerView.Adapter<ViewHolder>() {
+class GridAdapter(private val context: Context, val itemList: MutableList<Tile>, /*private val smallTiles: Boolean,*/ private val onTileSelectedListener: OnTileSelectedListener?) : RecyclerView.Adapter<ViewHolder>() {
+
+    private var onJigsawListenerAdapter : OnJigsawListenerAdapter? = null
+    private var invokeSettled = false
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         return when (viewType) {
@@ -50,6 +55,12 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
         holder.tileView.setOnClickListener {
             onTileSelectedListener?.onTileSelected(this, holder.tileView, item, position)
         }
+        if (invokeSettled) {
+            holder.tileView.post {
+                onJigsawListenerAdapter?.onTileSettled(holder.tileView)
+            }
+            invokeSettled = false
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -65,13 +76,21 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
         return itemList.size
     }
 
+    fun setOnJigsawListener(listener: OnJigsawListenerAdapter) {
+        this.onJigsawListenerAdapter = listener
+    }
+
+    fun prepareOnTileSettled() {
+        invokeSettled = true
+    }
+
     inner class TileFullViewHolder(view: TileView) : ViewHolder(view) {
         var tileView = view
 
         init {
-            if (smallTiles) {
-                view.animate().scaleY(0.65f).scaleX(0.65f).setDuration(0).start()
-            }
+//            if (smallTiles) {
+//                view.animate().scaleY(DEFAULT_SMALL_TILE_SCALE).scaleX(DEFAULT_SMALL_TILE_SCALE).setDuration(0).start()
+//            }
         }
     }
 

@@ -1,15 +1,16 @@
 package com.example.jigsaw.widgets
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.util.AttributeSet
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jigsaw.Constants.DEFAULT_TILE_SIZE
 import com.example.jigsaw.adapters.GridAdapter
+import com.example.jigsaw.interfaces.OnJigsawListenerAdapter
 import com.example.jigsaw.interfaces.OnTileSelectedListener
 import com.example.jigsaw.models.Tile
-import com.example.jigsaw.models.TileFull
+import kotlinx.android.synthetic.main.layout_jigsaw.view.*
+
 
 /**
  * Created by Dario Bruzzese
@@ -25,7 +26,7 @@ class GridView(context: Context, attributeSet: AttributeSet) : RecyclerView(cont
         this.rows = rows
         this.cols = cols
         layoutManager = GridLayoutManager(context, cols)
-        adapter = GridAdapter(context, tileList, smallTiles, onTileSelectedListener)
+        adapter = GridAdapter(context, tileList, /*smallTiles,*/ onTileSelectedListener)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -53,5 +54,9 @@ class GridView(context: Context, attributeSet: AttributeSet) : RecyclerView(cont
             }
         }
         return result
+    }
+
+    fun setOnJigsawListener(listener: OnJigsawListenerAdapter) {
+        (adapter as GridAdapter).setOnJigsawListener(listener)
     }
 }

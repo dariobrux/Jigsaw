@@ -8,6 +8,7 @@ import com.example.jigsaw.Constants
 import com.example.jigsaw.Engine
 import com.example.jigsaw.R
 import com.example.jigsaw.adapters.GridAdapter
+import com.example.jigsaw.interfaces.OnJigsawListenerAdapter
 import com.example.jigsaw.interfaces.OnTileSelectedListener
 import com.example.jigsaw.models.Tile
 import com.example.jigsaw.models.TileEmpty
@@ -29,9 +30,11 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     private var cols = 0
     private var items = 0
 
+    private val listenerHolder = ListenerHolder()
     private val engine: Engine
+    private var onJigsawListenerAdapter: OnJigsawListenerAdapter? = null
 
-    private var selectedAdapter : GridAdapter? = null
+    private var selectedAdapter: GridAdapter? = null
     private var selectedTile: Tile? = null
     private var selectedPosition: Int = -1
     private var selectedView: TileView? = null
@@ -85,11 +88,25 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     private fun getRows(): Int = sqrt(items.toDouble()).toInt()
     private fun getCols(): Int = sqrt(items.toDouble()).toInt()
 
+    fun setOnJigsawListener(listener: OnJigsawListenerAdapter) {
+        this.onJigsawListenerAdapter = listener
+        gridView?.setOnJigsawListener(listener)
+        spreadView?.setOnJigsawListener(listener)
+    }
+
     override fun onTileSelected(adapter: GridAdapter, view: TileView, tile: TileFull, position: Int) {
         selectedAdapter = adapter
         selectedTile = tile
         selectedPosition = position
         selectedView = view
+
+        // If the user invokes the OnJigsawListenerAdapter, when he selects a tile, the selected and
+        // deselected callbacks are invoked.
+        if (listenerHolder.selectedTileView != null && listenerHolder.selectedTileView != view) {
+            onJigsawListenerAdapter?.onTileDeselected(listenerHolder.selectedTileView!!)
+        }
+        onJigsawListenerAdapter?.onTileSelected(view)
+        listenerHolder.selectedTileView = view
     }
 
     override fun onEmptySelected(adapter: GridAdapter, view: View, position: Int) {
@@ -102,10 +119,17 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
         selectedAdapter!!.notifyItemChanged(selectedPosition)
 
         adapter.itemList[position] = selectedTile!!
+        adapter.prepareOnTileSettled()
         adapter.notifyItemChanged(position)
+
+//        onJigsawListenerAdapter?.onTileSettled(view)
 
         selectedPosition = -1
         selectedTile = null
         selectedView = null
+    }
+
+    inner class ListenerHolder() {
+        var selectedTileView : TileView? = null
     }
 }
