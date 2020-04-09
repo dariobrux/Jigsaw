@@ -3,6 +3,7 @@ package com.example.jigsaw.adapters
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewParent
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 //import com.example.jigsaw.Constants.DEFAULT_SMALL_TILE_SCALE
@@ -14,10 +15,10 @@ import com.example.jigsaw.models.TileFull
 import com.example.jigsaw.widgets.TileView
 
 
-class GridAdapter(private val context: Context, val itemList: MutableList<Tile>, /*private val smallTiles: Boolean,*/ private val onTileSelectedListener: OnTileSelectedListener?) : RecyclerView.Adapter<ViewHolder>() {
+class GridAdapter(private val context: Context, val itemList: MutableList<Tile>, private val isSpread: Boolean, private val onTileSelectedListener: OnTileSelectedListener?) : RecyclerView.Adapter<ViewHolder>() {
 
-    private var onJigsawListenerAdapter : OnJigsawListenerAdapter? = null
-    private var invokeSettled = false
+    private var onJigsawListenerAdapter: OnJigsawListenerAdapter? = null
+    private var isSettled = false
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         return when (viewType) {
@@ -55,11 +56,15 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
         holder.tileView.setOnClickListener {
             onTileSelectedListener?.onTileSelected(this, holder.tileView, item, position)
         }
-        if (invokeSettled) {
-            holder.tileView.post {
-                onJigsawListenerAdapter?.onTileSettled(holder.tileView)
-            }
-            invokeSettled = false
+        if (isSettled) {
+            holder.tileView.postDelayed({
+                if (isSpread) {
+                    onJigsawListenerAdapter?.onTileDeselected(holder.tileView)
+                } else {
+                    onJigsawListenerAdapter?.onTileSettled(holder.tileView)
+                }
+            }, 200)
+            isSettled = false
         }
     }
 
@@ -81,7 +86,7 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
     }
 
     fun prepareOnTileSettled() {
-        invokeSettled = true
+        isSettled = true
     }
 
     inner class TileFullViewHolder(view: TileView) : ViewHolder(view) {
@@ -91,6 +96,10 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
 //            if (smallTiles) {
 //                view.animate().scaleY(DEFAULT_SMALL_TILE_SCALE).scaleX(DEFAULT_SMALL_TILE_SCALE).setDuration(0).start()
 //            }
+
+            if (!isSettled) {
+                onJigsawListenerAdapter?.onTilePositioned(tileView)
+            }
         }
     }
 

@@ -1,7 +1,7 @@
 package com.example.jigsaw.interfaces
 
 import android.view.View
-import com.example.jigsaw.widgets.TileView
+import android.view.ViewParent
 
 /**
  * Created by Dario Bruzzese
@@ -18,6 +18,10 @@ abstract class OnJigsawListenerAdapter : OnJigsawListener {
     }
 
     override fun onTileSettled(view: View) {
+        // Not implemented
+    }
+
+    override fun onTilePositioned(view: View) {
         // Not implemented
     }
 }

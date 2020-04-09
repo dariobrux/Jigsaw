@@ -1,7 +1,7 @@
 package com.example.jigsaw.interfaces
 
 import android.view.View
-import com.example.jigsaw.widgets.TileView
+import android.view.ViewParent
 
 /**
  * Created by Dario Bruzzese
@@ -14,4 +14,6 @@ interface OnJigsawListener {
     fun onTileDeselected(view: View)
 
     fun onTileSettled(view: View)
+
+    fun onTilePositioned(view: View)
 }

@@ -2,6 +2,7 @@ package com.example.jigsaw.widgets
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.ViewParent
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.jigsaw.Constants.DEFAULT_TILE_SIZE
@@ -9,7 +10,6 @@ import com.example.jigsaw.adapters.GridAdapter
 import com.example.jigsaw.interfaces.OnJigsawListenerAdapter
 import com.example.jigsaw.interfaces.OnTileSelectedListener
 import com.example.jigsaw.models.Tile
-import kotlinx.android.synthetic.main.layout_jigsaw.view.*
 
 
 /**
@@ -22,11 +22,11 @@ class GridView(context: Context, attributeSet: AttributeSet) : RecyclerView(cont
     private var rows = 0
     private var cols = 0
 
-    fun init(tileList: MutableList<Tile>, rows: Int, cols: Int, smallTiles: Boolean, onTileSelectedListener: OnTileSelectedListener) {
+    fun init(tileList: MutableList<Tile>, rows: Int, cols: Int, isSpread: Boolean, onTileSelectedListener: OnTileSelectedListener) {
         this.rows = rows
         this.cols = cols
         layoutManager = GridLayoutManager(context, cols)
-        adapter = GridAdapter(context, tileList, /*smallTiles,*/ onTileSelectedListener)
+        adapter = GridAdapter(context, tileList, isSpread, onTileSelectedListener)
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
