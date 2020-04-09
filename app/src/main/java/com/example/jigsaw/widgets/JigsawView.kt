@@ -34,6 +34,7 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     private var selectedAdapter : GridAdapter? = null
     private var selectedTile: Tile? = null
     private var selectedPosition: Int = -1
+    private var selectedView: TileView? = null
 
     init {
         inflate(getContext(), R.layout.layout_jigsaw, this)
@@ -88,6 +89,7 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
         selectedAdapter = adapter
         selectedTile = tile
         selectedPosition = position
+        selectedView = view
     }
 
     override fun onEmptySelected(adapter: GridAdapter, view: View, position: Int) {
@@ -95,11 +97,12 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
             return
         }
 
+        selectedView?.reset()
         selectedAdapter!!.itemList[selectedPosition] = TileEmpty()
         selectedAdapter!!.notifyItemChanged(selectedPosition)
 
-        engine.tileEmptyList[position] = selectedTile!!
-        gridView.adapter!!.notifyItemChanged(position)
+        adapter.itemList[position] = selectedTile!!
+        adapter.notifyItemChanged(position)
 
         selectedTile = null
         selectedPosition = -1

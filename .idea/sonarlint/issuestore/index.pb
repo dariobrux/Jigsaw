@@ -33,5 +33,9 @@ h
 8app/src/main/java/com/example/jigsaw/widgets/GridView.kt,8\a\8ad90e51d41596814689f8886593b250d5e89c4a
 l
 <app/src/main/java/com/example/jigsaw/adapters/GridAdapter.kt,6\3\63fdf63a7559b6e727ada8034ff62646cf2ab98e
-j
-:app/src/main/java/com/example/jigsaw/widgets/SpreadView.kt,4\5\4508fb4882f48b2a1d2febc23ef481344575f9c2
+g
+7app/src/main/java/com/example/jigsaw/models/TileFull.kt,a\8\a800af6a89530323123661dd01c524f9a0c25ea1
+h
+8app/src/main/java/com/example/jigsaw/models/TileEmpty.kt,d\9\d9d6e7adb008a5ce617d5f14b0c28b351bb7f44b
+y
+Iapp/src/main/java/com/example/jigsaw/interfaces/OnTileSelectedListener.kt,7\d\7da33c0e3f94e3bb6967fb3d32d2c4bfe55e5cd2

@@ -4,13 +4,9 @@ import android.content.Context
 import android.graphics.*
 import android.os.Build
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.View
-import android.widget.FrameLayout
-import android.widget.RelativeLayout
 import com.example.jigsaw.Constants.DEFAULT_CAP_RADIUS
 import com.example.jigsaw.Constants.DEFAULT_TILE_SIZE
-import com.example.jigsaw.R
 import com.example.jigsaw.enums.CapMode
 import com.example.jigsaw.managers.PaintManager
 import com.example.jigsaw.managers.RectManager
@@ -41,6 +37,13 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+
+        if (isClearCanvasMode) {
+            pathDrawer.reset()
+            pathEraser.reset()
+            isClearCanvasMode = false
+            return
+        }
 
         val newRect: Rect = canvas.clipBounds
         newRect.inset((-DEFAULT_CAP_RADIUS * 2).toInt(), (-DEFAULT_CAP_RADIUS * 2).toInt())  //make the rect larger
@@ -119,4 +122,12 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
     }
 
     private fun getCapRadiusToShow() = DEFAULT_CAP_RADIUS / 2
+
+
+    private var isClearCanvasMode = false
+
+    fun reset() {
+        isClearCanvasMode = true
+        invalidate()
+    }
 }
