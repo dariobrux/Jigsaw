@@ -61,11 +61,32 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
                 if (isSpread) {
                     onJigsawListenerAdapter?.onTileDeselected(holder.tileView)
                 } else {
-                    onJigsawListenerAdapter?.onTileSettled(holder.tileView)
+
+                    if (isCompleted()) {
+                        onJigsawListenerAdapter?.onTileSettled(holder.tileView)
+                        onJigsawListenerAdapter?.onCompleted()
+                    } else {
+                        onJigsawListenerAdapter?.onTileSettled(holder.tileView)
+                    }
                 }
             }, 200)
             isSettled = false
         }
+    }
+
+    private fun isCompleted(): Boolean {
+        var isCompleted = false
+        var oldPosition = -1
+        (itemList as ArrayList).forEach {
+            if (it is TileEmpty) {
+                isCompleted = false
+                return@forEach
+            }
+            it as TileFull
+            isCompleted = oldPosition + 1 == it.position
+            oldPosition++
+        }
+        return isCompleted
     }
 
     override fun getItemViewType(position: Int): Int {

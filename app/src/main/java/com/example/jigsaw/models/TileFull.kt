@@ -16,5 +16,7 @@ class TileFull : Tile() {
 
     var index = Index(0, 0)
 
-    var bitmap : Bitmap? = null
+    var position = 0
+
+    var bitmap: Bitmap? = null
 }

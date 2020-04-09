@@ -16,4 +16,6 @@ interface OnJigsawListener {
     fun onTileSettled(view: View)
 
     fun onTilePositioned(view: View)
+
+    fun onCompleted()
 }

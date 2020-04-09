@@ -29,12 +29,14 @@ class Engine(context: Context, items: Int, private val rows: Int, private val co
         var currentRightCap: CapMode = getRandomCapMode()
         val currentBottomCapList = mutableListOf<CapMode>()
 
+        var position = 0
+
         repeat(rows) { i ->
             repeat(cols) { j ->
-                val position = getPosition(i, j)
-                Log.d("Engine", "$i, $j -> $position ")
+                val tilePosition = getTilePosition(i, j)
+                Log.d("Engine", "$i, $j -> $tilePosition ")
                 val tile = TileFull().apply {
-                    when (position) {
+                    when (tilePosition) {
                         TilePosition.LEFT_TOP -> {
                             this.capLeft = CapMode.NONE
                             this.capTop = CapMode.NONE
@@ -91,6 +93,7 @@ class Engine(context: Context, items: Int, private val rows: Int, private val co
                         }
                     }
                     this.index = Index(i, j)
+                    this.position = position
 
                     val iIndex = 0 + (Constants.DEFAULT_TILE_SIZE * j)
                     val jIndex = 0 + (Constants.DEFAULT_TILE_SIZE * i)
@@ -104,6 +107,8 @@ class Engine(context: Context, items: Int, private val rows: Int, private val co
                         bitmapSize.toInt(),
                         bitmapSize.toInt()
                     )
+
+                    position++
                 }
                 currentRightCap = tile.capRight
                 currentBottomCapList.add(tile.capBottom)
@@ -123,7 +128,7 @@ class Engine(context: Context, items: Int, private val rows: Int, private val co
 
     private fun getCapRadiusToShow() = Constants.DEFAULT_CAP_RADIUS / 2
 
-    private fun getPosition(row: Int, col: Int): TilePosition {
+    private fun getTilePosition(row: Int, col: Int): TilePosition {
         return if (!(row == 0 || col == 0 || row == rows - 1 || col == cols - 1)) {
             TilePosition.CENTER
         } else {
