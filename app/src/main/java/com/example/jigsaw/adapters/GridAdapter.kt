@@ -1,13 +1,10 @@
 package com.example.jigsaw.adapters
 
 import android.content.Context
-import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.jigsaw.Constants
 import com.example.jigsaw.interfaces.OnTileSelectedListener
 import com.example.jigsaw.models.Tile
 import com.example.jigsaw.models.TileEmpty
@@ -23,7 +20,7 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
                 TileFullViewHolder(TileView(context))
             }
             else -> {
-                TileEmptyViewHolder(View(context))
+                TileEmptyViewHolder(TileView(context))
             }
         }
     }
@@ -42,9 +39,8 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
     }
 
     private fun configureTileEmptyViewHolder(holder: TileEmptyViewHolder, position: Int) {
-        holder.emptyView.setBackgroundColor(Color.BLACK)
         holder.emptyView.setOnClickListener {
-            onTileSelectedListener?.onEmptySelected(holder.emptyView, position)
+            onTileSelectedListener?.onEmptySelected(this, holder.emptyView, position)
         }
     }
 
@@ -52,7 +48,7 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
         val item = itemList[position] as TileFull
         holder.tileView.tile = item
         holder.tileView.setOnClickListener {
-            onTileSelectedListener?.onTileSelected(holder.tileView, item)
+            onTileSelectedListener?.onTileSelected(this, holder.tileView, item, position)
         }
     }
 
@@ -81,10 +77,6 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
 
     inner class TileEmptyViewHolder(view: View) : ViewHolder(view) {
         var emptyView = view
-
-        init {
-            emptyView.layoutParams = FrameLayout.LayoutParams(Constants.DEFAULT_TILE_SIZE, Constants.DEFAULT_TILE_SIZE)
-        }
     }
 
     companion object {

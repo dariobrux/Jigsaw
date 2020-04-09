@@ -1,7 +1,6 @@
 package com.example.jigsaw.widgets
 
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -11,6 +10,7 @@ import com.example.jigsaw.R
 import com.example.jigsaw.adapters.GridAdapter
 import com.example.jigsaw.interfaces.OnTileSelectedListener
 import com.example.jigsaw.models.Tile
+import com.example.jigsaw.models.TileEmpty
 import com.example.jigsaw.models.TileFull
 import kotlinx.android.synthetic.main.layout_jigsaw.view.*
 import kotlin.math.floor
@@ -30,7 +30,10 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     private var items = 0
 
     private val engine: Engine
+
+    private var selectedAdapter : GridAdapter? = null
     private var selectedTile: Tile? = null
+    private var selectedPosition: Int = -1
 
     init {
         inflate(getContext(), R.layout.layout_jigsaw, this)
@@ -81,16 +84,24 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     private fun getRows(): Int = sqrt(items.toDouble()).toInt()
     private fun getCols(): Int = sqrt(items.toDouble()).toInt()
 
-    override fun onTileSelected(view: TileView, tile: TileFull) {
+    override fun onTileSelected(adapter: GridAdapter, view: TileView, tile: TileFull, position: Int) {
+        selectedAdapter = adapter
         selectedTile = tile
+        selectedPosition = position
     }
 
-    override fun onEmptySelected(view: View, position: Int) {
-        if (selectedTile == null) {
+    override fun onEmptySelected(adapter: GridAdapter, view: View, position: Int) {
+        if (selectedTile == null || selectedPosition == -1 || selectedAdapter == null) {
             return
         }
-        val x = position
-        (gridView.adapter!! as GridAdapter).itemList[position] = selectedTile!!
+
+        selectedAdapter!!.itemList[selectedPosition] = TileEmpty()
+        selectedAdapter!!.notifyItemChanged(selectedPosition)
+
+        engine.tileEmptyList[position] = selectedTile!!
         gridView.adapter!!.notifyItemChanged(position)
+
+        selectedTile = null
+        selectedPosition = -1
     }
 }
