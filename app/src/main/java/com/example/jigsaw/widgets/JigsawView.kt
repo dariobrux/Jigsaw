@@ -93,7 +93,7 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     }
 
     override fun onEmptySelected(adapter: GridAdapter, view: View, position: Int) {
-        if (selectedTile == null || selectedPosition == -1 || selectedAdapter == null) {
+        if (selectedTile == null || selectedPosition == -1 || selectedAdapter == null || selectedView == null) {
             return
         }
 
@@ -104,7 +104,8 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
         adapter.itemList[position] = selectedTile!!
         adapter.notifyItemChanged(position)
 
-        selectedTile = null
         selectedPosition = -1
+        selectedTile = null
+        selectedView = null
     }
 }

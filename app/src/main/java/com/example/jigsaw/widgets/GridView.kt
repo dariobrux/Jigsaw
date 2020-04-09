@@ -18,8 +18,8 @@ import com.example.jigsaw.models.TileFull
 
 class GridView(context: Context, attributeSet: AttributeSet) : RecyclerView(context, attributeSet) {
 
-    var rows = 0
-    var cols = 0
+    private var rows = 0
+    private var cols = 0
 
     fun init(tileList: MutableList<Tile>, rows: Int, cols: Int, smallTiles: Boolean, onTileSelectedListener: OnTileSelectedListener) {
         this.rows = rows
