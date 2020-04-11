@@ -9,13 +9,16 @@ import android.view.ViewParent
  */
 interface OnJigsawListener {
 
-    fun onTileSelected(view: View)
+    fun onCompleted()
 
     fun onTileDeselected(view: View)
 
-    fun onTileSettled(view: View)
-
     fun onTilePositioned(view: View)
 
-    fun onCompleted()
+    fun onTileRemoved(view: View)
+
+    fun onTileSelected(view: View)
+
+    fun onTileSettled(view: View)
+
 }

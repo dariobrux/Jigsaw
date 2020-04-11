@@ -39,3 +39,7 @@ h
 8app/src/main/java/com/example/jigsaw/models/TileEmpty.kt,d\9\d9d6e7adb008a5ce617d5f14b0c28b351bb7f44b
 y
 Iapp/src/main/java/com/example/jigsaw/interfaces/OnTileSelectedListener.kt,7\d\7da33c0e3f94e3bb6967fb3d32d2c4bfe55e5cd2
+z
+Japp/src/main/java/com/example/jigsaw/interfaces/OnJigsawListenerAdapter.kt,1\2\12cfdbf8004253d3fb9ab0749b117228def29821
+s
+Capp/src/main/java/com/example/jigsaw/interfaces/OnJigsawListener.kt,3\1\319c2ec0b401ae44db50f9591ec8f4ec98af1275

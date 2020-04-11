@@ -13,7 +13,7 @@
         android:id="@+id/jigsawView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:jv_pieces="10"
+        app:jv_pieces="25"
         android:clipChildren="false"
         android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"

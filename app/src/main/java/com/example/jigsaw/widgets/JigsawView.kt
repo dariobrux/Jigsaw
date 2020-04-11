@@ -95,6 +95,40 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     }
 
     override fun onTileSelected(adapter: GridAdapter, view: TileView, tile: TileFull, position: Int) {
+
+        // If another tile has been selected, I must replace the selected view with the new view.
+        if (selectedTile is TileFull) {
+
+            // If the grids are the same.
+            if (adapter == selectedAdapter) {
+                adapter.apply {
+                    view.reset()
+                    itemList[position] = selectedTile!!
+                    prepareOnTileSettled()
+                    notifyItemChanged(position)
+                    post {
+                        selectedView?.reset()
+                        itemList[selectedPosition] = tile
+                        prepareOnTileSettled()
+                        notifyItemChanged(selectedPosition)
+
+                        selectedPosition = -1
+                        selectedTile = null
+                        selectedView = null
+                    }
+                    return
+                }
+            } else {
+                // If the grids are different
+
+            }
+            selectedPosition = -1
+            selectedTile = null
+            selectedView = null
+
+            return
+        }
+
         selectedAdapter = adapter
         selectedTile = tile
         selectedPosition = position
@@ -122,14 +156,12 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
         adapter.prepareOnTileSettled()
         adapter.notifyItemChanged(position)
 
-//        onJigsawListenerAdapter?.onTileSettled(view)
-
         selectedPosition = -1
         selectedTile = null
         selectedView = null
     }
 
-    inner class ListenerHolder() {
-        var selectedTileView : TileView? = null
+    inner class ListenerHolder {
+        var selectedTileView: TileView? = null
     }
 }

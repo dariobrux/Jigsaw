@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.view.ViewParent
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.jigsaw.extensions.toInvisible
+import com.example.jigsaw.extensions.toVisible
 //import com.example.jigsaw.Constants.DEFAULT_SMALL_TILE_SCALE
 import com.example.jigsaw.interfaces.OnJigsawListenerAdapter
 import com.example.jigsaw.interfaces.OnTileSelectedListener
@@ -57,9 +59,11 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
             onTileSelectedListener?.onTileSelected(this, holder.tileView, item, position)
         }
         if (isSettled) {
+            holder.tileView.toInvisible()
             holder.tileView.postDelayed({
+                holder.tileView.toVisible()
                 if (isSpread) {
-                    onJigsawListenerAdapter?.onTileDeselected(holder.tileView)
+                    onJigsawListenerAdapter?.onTileRemoved(holder.tileView)
                 } else {
 
                     if (isCompleted()) {
@@ -69,7 +73,7 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
                         onJigsawListenerAdapter?.onTileSettled(holder.tileView)
                     }
                 }
-            }, 200)
+            }, 150)
             isSettled = false
         }
     }

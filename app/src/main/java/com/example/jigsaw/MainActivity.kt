@@ -17,18 +17,12 @@ class MainActivity : AppCompatActivity() {
 
         jigsawView?.setOnJigsawListener(object : OnJigsawListenerAdapter() {
 
-            override fun onTileSelected(view: View) {
-                view.animate().scaleX(0.8f).scaleY(0.8f).setInterpolator(OvershootInterpolator()).setDuration(400).start()
+            override fun onCompleted() {
+                Toast.makeText(applicationContext, "You have completed this Jigsaw!", Toast.LENGTH_SHORT).show()
             }
 
             override fun onTileDeselected(view: View) {
                 view.animate().scaleX(0.65f).scaleY(0.65f).setInterpolator(OvershootInterpolator()).setDuration(400).start()
-            }
-
-            override fun onTileSettled(view: View) {
-                view.scaleX = 0f
-                view.scaleY = 0f
-                view.animate().scaleX(1f).scaleY(1f).setInterpolator(OvershootInterpolator()).setDuration(400).start()
             }
 
             override fun onTilePositioned(view: View) {
@@ -37,8 +31,18 @@ class MainActivity : AppCompatActivity() {
                 view.animate().scaleX(0.65f).scaleY(0.65f).setInterpolator(OvershootInterpolator()).setDuration(400).start()
             }
 
-            override fun onCompleted() {
-                Toast.makeText(applicationContext, "You have completed this Jigsaw!", Toast.LENGTH_SHORT).show()
+            override fun onTileRemoved(view: View) {
+                onTilePositioned(view)
+            }
+
+            override fun onTileSelected(view: View) {
+                view.animate().scaleX(0.8f).scaleY(0.8f).setInterpolator(OvershootInterpolator()).setDuration(400).start()
+            }
+
+            override fun onTileSettled(view: View) {
+                view.scaleX = 0f
+                view.scaleY = 0f
+                view.animate().scaleX(1f).scaleY(1f).setInterpolator(OvershootInterpolator()).setDuration(400).start()
             }
         })
     }

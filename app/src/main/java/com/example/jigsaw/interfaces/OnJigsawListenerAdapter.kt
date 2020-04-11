@@ -9,19 +9,23 @@ import android.view.ViewParent
  */
 abstract class OnJigsawListenerAdapter : OnJigsawListener {
 
-    override fun onTileSelected(view: View) {
-        // Not implemented
-    }
-
     override fun onTileDeselected(view: View) {
         // Not implemented
     }
 
-    override fun onTileSettled(view: View) {
+    override fun onTilePositioned(view: View) {
         // Not implemented
     }
 
-    override fun onTilePositioned(view: View) {
+    override fun onTileRemoved(view: View) {
+        // Not implemented
+    }
+
+    override fun onTileSelected(view: View) {
+        // Not implemented
+    }
+
+    override fun onTileSettled(view: View) {
         // Not implemented
     }
 }
