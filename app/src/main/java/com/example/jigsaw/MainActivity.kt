@@ -21,8 +21,12 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "You have completed this Jigsaw!", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onTileDeselected(view: View) {
-                view.animate().scaleX(0.65f).scaleY(0.65f).setInterpolator(OvershootInterpolator()).setDuration(400).start()
+            override fun onTileDeselected(view: View, isInBoard: Boolean) {
+                if (isInBoard) {
+                    view.animate().scaleX(1f).scaleY(1f).setInterpolator(OvershootInterpolator()).setDuration(400).start()
+                } else {
+                    view.animate().scaleX(0.65f).scaleY(0.65f).setInterpolator(OvershootInterpolator()).setDuration(400).start()
+                }
             }
 
             override fun onTilePositioned(view: View) {

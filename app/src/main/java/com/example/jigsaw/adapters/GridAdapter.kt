@@ -17,7 +17,7 @@ import com.example.jigsaw.models.TileFull
 import com.example.jigsaw.widgets.TileView
 
 
-class GridAdapter(private val context: Context, val itemList: MutableList<Tile>, private val isSpread: Boolean, private val onTileSelectedListener: OnTileSelectedListener?) : RecyclerView.Adapter<ViewHolder>() {
+class GridAdapter(private val context: Context, val itemList: MutableList<Tile>, val isSpread: Boolean, private val onTileSelectedListener: OnTileSelectedListener?) : RecyclerView.Adapter<ViewHolder>() {
 
     private var onJigsawListenerAdapter: OnJigsawListenerAdapter? = null
     private var isSettled = false

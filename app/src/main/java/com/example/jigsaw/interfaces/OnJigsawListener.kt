@@ -11,7 +11,7 @@ interface OnJigsawListener {
 
     fun onCompleted()
 
-    fun onTileDeselected(view: View)
+    fun onTileDeselected(view: View, isInBoard: Boolean)
 
     fun onTilePositioned(view: View)
 
@@ -20,5 +20,6 @@ interface OnJigsawListener {
     fun onTileSelected(view: View)
 
     fun onTileSettled(view: View)
+
 
 }

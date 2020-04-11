@@ -9,7 +9,7 @@ import android.view.ViewParent
  */
 abstract class OnJigsawListenerAdapter : OnJigsawListener {
 
-    override fun onTileDeselected(view: View) {
+    override fun onTileDeselected(view: View, isInBoard: Boolean) {
         // Not implemented
     }
 

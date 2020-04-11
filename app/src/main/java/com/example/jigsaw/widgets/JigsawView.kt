@@ -96,50 +96,26 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
 
     override fun onTileSelected(adapter: GridAdapter, view: TileView, tile: TileFull, position: Int) {
 
+        val isInBoard = !adapter.isSpread
+
+        // If is the same selected tile.
+        if (selectedTile == tile) {
+            onJigsawListenerAdapter?.onTileDeselected(listenerHolder.selectedTileView!!, isInBoard)
+            recycle()
+            return
+        }
+
         // If another tile has been selected, I must replace the selected view with the new view.
         if (selectedTile is TileFull) {
 
             // If the grids are the same.
             if (adapter == selectedAdapter) {
-                adapter.apply {
-                    view.reset()
-                    itemList[position] = selectedTile!!
-                    prepareOnTileSettled()
-                    notifyItemChanged(position)
-                    post {
-                        selectedView?.reset()
-                        itemList[selectedPosition] = tile
-                        prepareOnTileSettled()
-                        notifyItemChanged(selectedPosition)
-
-                        selectedPosition = -1
-                        selectedTile = null
-                        selectedView = null
-                    }
-                }
-                return
+                replaceTileAndRecycle(adapter, adapter, view, tile, position)
             } else {
                 // If the grids are different
-                adapter.apply {
-                    view.reset()
-                    itemList[position] = selectedTile!!
-                    prepareOnTileSettled()
-                    notifyItemChanged(position)
-                    post {
-                        selectedAdapter?.apply {
-                            selectedView?.reset()
-                            itemList[selectedPosition] = tile
-                            prepareOnTileSettled()
-                            notifyItemChanged(selectedPosition)
-
-                            selectedPosition = -1
-                            selectedTile = null
-                            selectedView = null
-                        }
-                    }
-                }
-                return
+                replaceTileAndRecycle(adapter, selectedAdapter!!, view, tile, position)
             }
+            return
         }
 
         selectedAdapter = adapter
@@ -150,10 +126,29 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
         // If the user invokes the OnJigsawListenerAdapter, when he selects a tile, the selected and
         // deselected callbacks are invoked.
         if (listenerHolder.selectedTileView != null && listenerHolder.selectedTileView != view) {
-            onJigsawListenerAdapter?.onTileDeselected(listenerHolder.selectedTileView!!)
+            onJigsawListenerAdapter?.onTileDeselected(listenerHolder.selectedTileView!!, isInBoard)
         }
         onJigsawListenerAdapter?.onTileSelected(view)
         listenerHolder.selectedTileView = view
+    }
+
+    private fun replaceTileAndRecycle(adapterFrom: GridAdapter, adapterTo: GridAdapter, view: TileView, tile: TileFull, position: Int) {
+        adapterFrom.apply {
+            view.reset()
+            itemList[position] = selectedTile!!
+            prepareOnTileSettled()
+            notifyItemChanged(position)
+            post {
+                adapterTo.apply {
+                    selectedView?.reset()
+                    itemList[selectedPosition] = tile
+                    prepareOnTileSettled()
+                    notifyItemChanged(selectedPosition)
+
+                    recycle()
+                }
+            }
+        }
     }
 
     override fun onEmptySelected(adapter: GridAdapter, view: View, position: Int) {
@@ -169,9 +164,15 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
         adapter.prepareOnTileSettled()
         adapter.notifyItemChanged(position)
 
+        recycle()
+    }
+
+    private fun recycle() {
         selectedPosition = -1
+        selectedAdapter = null
         selectedTile = null
         selectedView = null
+        listenerHolder.selectedTileView = null
     }
 
     inner class ListenerHolder {
