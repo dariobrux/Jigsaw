@@ -116,17 +116,30 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
                         selectedTile = null
                         selectedView = null
                     }
-                    return
                 }
+                return
             } else {
                 // If the grids are different
+                adapter.apply {
+                    view.reset()
+                    itemList[position] = selectedTile!!
+                    prepareOnTileSettled()
+                    notifyItemChanged(position)
+                    post {
+                        selectedAdapter?.apply {
+                            selectedView?.reset()
+                            itemList[selectedPosition] = tile
+                            prepareOnTileSettled()
+                            notifyItemChanged(selectedPosition)
 
+                            selectedPosition = -1
+                            selectedTile = null
+                            selectedView = null
+                        }
+                    }
+                }
+                return
             }
-            selectedPosition = -1
-            selectedTile = null
-            selectedView = null
-
-            return
         }
 
         selectedAdapter = adapter
