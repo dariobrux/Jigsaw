@@ -2,9 +2,10 @@ package com.example.jigsaw.widgets
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.Point
 import android.util.AttributeSet
 import android.view.View
+import android.view.WindowManager
 import android.widget.FrameLayout
 import com.example.jigsaw.Constants
 import com.example.jigsaw.Engine
@@ -20,6 +21,7 @@ import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
+
 
 /**
  * Created by Dario Bruzzese
@@ -91,7 +93,6 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
 
     fun setBitmap(bitmap: Bitmap) {
         engine = Engine(bitmap, items, rows, cols)
-
         gridView.init(engine!!.tileEmptyList, rows, cols, false, this)
         spreadView.init(engine!!.tileFullList.shuffled().toMutableList(), rows, cols, true, this)
     }
