@@ -47,6 +47,9 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
 
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.JigsawView)
         items = typedArray.getInt(R.styleable.JigsawView_jv_pieces, Constants.DEFAULT_ITEMS)
+        typedArray.getDrawable(R.styleable.JigsawView_jv_borderBoard)?.let {
+            gridView?.background = it
+        }
         typedArray.recycle()
 
         if (isPerfectSquare(items)) {
