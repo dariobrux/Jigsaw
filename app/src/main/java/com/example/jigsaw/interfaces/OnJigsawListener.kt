@@ -13,13 +13,12 @@ interface OnJigsawListener {
 
     fun onTileDeselected(view: View, isInBoard: Boolean)
 
-    fun onTilePositioned(view: View)
-
-    fun onTileRemoved(view: View)
+    fun onTileGenerated(view: View)
 
     fun onTileSelected(view: View)
 
-    fun onTileSettled(view: View)
+    fun onTileSettled(view: View, isCorrectPosition: Boolean)
 
+    fun onTileUnsettled(view: View)
 
 }

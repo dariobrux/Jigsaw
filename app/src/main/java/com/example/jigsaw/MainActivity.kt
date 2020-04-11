@@ -1,9 +1,10 @@
 package com.example.jigsaw
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.ViewParent
 import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import com.example.jigsaw.interfaces.OnJigsawListenerAdapter
@@ -29,24 +30,27 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onTilePositioned(view: View) {
+            override fun onTileGenerated(view: View) {
                 view.scaleX = 0f
                 view.scaleY = 0f
                 view.animate().scaleX(0.65f).scaleY(0.65f).setInterpolator(OvershootInterpolator()).setDuration(400).start()
-            }
-
-            override fun onTileRemoved(view: View) {
-                onTilePositioned(view)
             }
 
             override fun onTileSelected(view: View) {
                 view.animate().scaleX(0.8f).scaleY(0.8f).setInterpolator(OvershootInterpolator()).setDuration(400).start()
             }
 
-            override fun onTileSettled(view: View) {
+            override fun onTileSettled(view: View, isCorrectPosition: Boolean) {
                 view.scaleX = 0f
                 view.scaleY = 0f
                 view.animate().scaleX(1f).scaleY(1f).setInterpolator(OvershootInterpolator()).setDuration(400).start()
+                if (!isCorrectPosition) {
+                    Toast.makeText(applicationContext, "Wrong position!", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onTileUnsettled(view: View) {
+                onTileGenerated(view)
             }
         })
     }

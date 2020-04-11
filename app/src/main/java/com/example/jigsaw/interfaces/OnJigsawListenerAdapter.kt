@@ -13,11 +13,7 @@ abstract class OnJigsawListenerAdapter : OnJigsawListener {
         // Not implemented
     }
 
-    override fun onTilePositioned(view: View) {
-        // Not implemented
-    }
-
-    override fun onTileRemoved(view: View) {
+    override fun onTileGenerated(view: View) {
         // Not implemented
     }
 
@@ -25,7 +21,11 @@ abstract class OnJigsawListenerAdapter : OnJigsawListener {
         // Not implemented
     }
 
-    override fun onTileSettled(view: View) {
+    override fun onTileSettled(view: View, isCorrectPosition: Boolean) {
+        // Not implemented
+    }
+
+    override fun onTileUnsettled(view: View) {
         // Not implemented
     }
 }

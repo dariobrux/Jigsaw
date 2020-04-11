@@ -3,7 +3,6 @@ package com.example.jigsaw.adapters
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.jigsaw.extensions.toInvisible
@@ -63,14 +62,14 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
             holder.tileView.postDelayed({
                 holder.tileView.toVisible()
                 if (isSpread) {
-                    onJigsawListenerAdapter?.onTileRemoved(holder.tileView)
+                    onJigsawListenerAdapter?.onTileUnsettled(holder.tileView)
                 } else {
 
                     if (isCompleted()) {
-                        onJigsawListenerAdapter?.onTileSettled(holder.tileView)
+                        onJigsawListenerAdapter?.onTileSettled(holder.tileView, true)
                         onJigsawListenerAdapter?.onCompleted()
                     } else {
-                        onJigsawListenerAdapter?.onTileSettled(holder.tileView)
+                        onJigsawListenerAdapter?.onTileSettled(holder.tileView, holder.tileView.tile.position == position)
                     }
                 }
             }, 150)
@@ -123,7 +122,7 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
 //            }
 
             if (!isSettled) {
-                onJigsawListenerAdapter?.onTilePositioned(tileView)
+                onJigsawListenerAdapter?.onTileGenerated(tileView)
             }
         }
     }
