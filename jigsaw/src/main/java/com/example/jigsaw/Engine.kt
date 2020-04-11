@@ -1,8 +1,6 @@
 package com.example.jigsaw
 
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import com.example.jigsaw.enums.CapMode
 import com.example.jigsaw.enums.TilePosition
@@ -15,7 +13,7 @@ import com.example.jigsaw.models.TileFull
  * Created by Dario Bruzzese
  * on 4/5/2020
  */
-class Engine(context: Context, items: Int, private val rows: Int, private val cols: Int) {
+class Engine(bitmap: Bitmap, items: Int, private val rows: Int, private val cols: Int) {
 
     var tileFullList = arrayListOf<Tile>()
     var tileEmptyList = arrayListOf<Tile>()
@@ -23,8 +21,6 @@ class Engine(context: Context, items: Int, private val rows: Int, private val co
     init {
 
         Log.d("Engine", "$items items is -> ${rows}x$cols")
-
-        val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.genova)
 
         var currentRightCap: CapMode = getRandomCapMode()
         val currentBottomCapList = mutableListOf<CapMode>()

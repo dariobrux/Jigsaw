@@ -1,6 +1,7 @@
 package com.example.jigsaw
 
 import android.content.res.ColorStateList
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        jigsawView?.setBitmap(BitmapFactory.decodeResource(resources, R.drawable.genova))
         jigsawView?.setOnJigsawListener(object : OnJigsawListenerAdapter() {
 
             override fun onCompleted() {

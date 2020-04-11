@@ -1,6 +1,8 @@
 package com.example.jigsaw.widgets
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -31,8 +33,9 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     private var items = 0
 
     private val listenerHolder = ListenerHolder()
-    private val engine: Engine
     private var onJigsawListenerAdapter: OnJigsawListenerAdapter? = null
+
+    private var engine: Engine? = null
 
     private var selectedAdapter: GridAdapter? = null
     private var selectedTile: Tile? = null
@@ -55,11 +58,6 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
             rows = min(x, y)
             cols = max(x, y)
         }
-
-        engine = Engine(context, items, rows, cols)
-
-        gridView.init(engine.tileEmptyList, rows, cols, false, this)
-        spreadView.init(engine.tileFullList.shuffled().toMutableList(), rows, cols, true, this)
     }
 
 
@@ -87,6 +85,13 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
 
     private fun getRows(): Int = sqrt(items.toDouble()).toInt()
     private fun getCols(): Int = sqrt(items.toDouble()).toInt()
+
+    fun setBitmap(bitmap: Bitmap) {
+        engine = Engine(bitmap, items, rows, cols)
+
+        gridView.init(engine!!.tileEmptyList, rows, cols, false, this)
+        spreadView.init(engine!!.tileFullList.shuffled().toMutableList(), rows, cols, true, this)
+    }
 
     fun setOnJigsawListener(listener: OnJigsawListenerAdapter) {
         this.onJigsawListenerAdapter = listener
