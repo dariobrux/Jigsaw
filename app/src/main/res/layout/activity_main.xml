@@ -32,6 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:tv_bitmap="@drawable/genova"
         app:tv_borderColor="#ff00ff"
         app:tv_borderWidth="3dp"
         app:tv_capBottom="full"

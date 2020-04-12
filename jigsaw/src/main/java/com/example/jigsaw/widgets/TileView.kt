@@ -2,8 +2,10 @@ package com.example.jigsaw.widgets
 
 import android.content.Context
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.graphics.drawable.toBitmap
 import com.example.jigsaw.Constants.DEFAULT_CAP_RADIUS
 import com.example.jigsaw.Constants.DEFAULT_TILE_SIZE
 import com.example.jigsaw.R
@@ -19,20 +21,26 @@ import com.example.jigsaw.models.TileFull
 class TileView(context: Context, attributeSet: AttributeSet?) : View(context, attributeSet) {
 
     var tile = TileFull()
+    set(value) {
+        field = value
+        paintBorder.color = value.tileDecorator?.borderColor ?: paintBorder.color
+        paintBorder.strokeWidth = value.tileDecorator?.borderWidth ?: paintBorder.strokeWidth
+    }
 
     private val pathDrawer = Path()
 
     private val paintBorder = Paint().apply {
         isAntiAlias = true
-        color = PaintManager.tileBorder.color
+        color = Color.TRANSPARENT
         style = Paint.Style.STROKE
-        strokeWidth = PaintManager.tileBorder.strokeWidth
+        strokeWidth = 0f
     }
 
     constructor(context: Context) : this(context, null)
 
     init {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.TileView)
+        tile.bitmap = typedArray.getDrawable(R.styleable.TileView_tv_bitmap)?.toBitmap()
         tile.capLeft = CapMode.values()[typedArray.getInt(R.styleable.TileView_tv_capLeft, tile.capLeft.ordinal)]
         tile.capTop = CapMode.values()[typedArray.getInt(R.styleable.TileView_tv_capTop, tile.capTop.ordinal)]
         tile.capRight = CapMode.values()[typedArray.getInt(R.styleable.TileView_tv_capRight, tile.capRight.ordinal)]
@@ -182,9 +190,8 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
         tile.bitmap?.let {
             canvas.drawBitmap(it, -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), PaintManager.bitmap)
 
-            // Draw the border by default.
-            if (PaintManager.tileBorder.strokeWidth > 0) {
-                canvas.drawPath(pathDrawer, PaintManager.tileBorder)
+            if (paintBorder.strokeWidth > 0) {
+                canvas.drawPath(pathDrawer, paintBorder)
             }
         }
     }

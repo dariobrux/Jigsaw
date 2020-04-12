@@ -118,10 +118,6 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
         var tileView = view
 
         init {
-//            if (smallTiles) {
-//                view.animate().scaleY(DEFAULT_SMALL_TILE_SCALE).scaleX(DEFAULT_SMALL_TILE_SCALE).setDuration(0).start()
-//            }
-
             if (!isSettled) {
                 onJigsawListenerAdapter?.onTileGenerated(tileView)
             }

@@ -2,10 +2,8 @@ package com.example.jigsaw.widgets
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Point
 import android.util.AttributeSet
 import android.view.View
-import android.view.WindowManager
 import android.widget.FrameLayout
 import com.example.jigsaw.Constants
 import com.example.jigsaw.Engine
@@ -13,8 +11,8 @@ import com.example.jigsaw.R
 import com.example.jigsaw.adapters.GridAdapter
 import com.example.jigsaw.interfaces.OnJigsawListenerAdapter
 import com.example.jigsaw.interfaces.OnTileSelectedListener
-import com.example.jigsaw.managers.PaintManager
 import com.example.jigsaw.models.Tile
+import com.example.jigsaw.models.TileDecorator
 import com.example.jigsaw.models.TileEmpty
 import com.example.jigsaw.models.TileFull
 import kotlinx.android.synthetic.main.layout_jigsaw.view.*
@@ -47,12 +45,14 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
 
     private var spreadCols = 1
 
+    private var tileDecorator = TileDecorator()
+
     init {
         inflate(getContext(), R.layout.layout_jigsaw, this)
 
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.JigsawView)
-        PaintManager.tileBorder.color = typedArray.getColor(R.styleable.JigsawView_jv_tileBorderColor, PaintManager.tileBorder.color)
-        PaintManager.tileBorder.strokeWidth = typedArray.getDimension(R.styleable.JigsawView_jv_tileBorderWidth, PaintManager.tileBorder.strokeWidth)
+        tileDecorator.borderColor = typedArray.getColor(R.styleable.JigsawView_jv_tileBorderColor, tileDecorator.borderColor)
+        tileDecorator.borderWidth = typedArray.getDimension(R.styleable.JigsawView_jv_tileBorderWidth, tileDecorator.borderWidth)
         items = typedArray.getInt(R.styleable.JigsawView_jv_pieces, Constants.DEFAULT_ITEMS)
         typedArray.getDrawable(R.styleable.JigsawView_jv_borderBoard)?.let {
             gridView?.background = it
@@ -99,7 +99,7 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     private fun getCols(): Int = sqrt(items.toDouble()).toInt()
 
     fun setBitmap(bitmap: Bitmap) {
-        engine = Engine(bitmap, items, rows, cols)
+        engine = Engine(bitmap, items, rows, cols, tileDecorator)
         gridView.init(engine!!.tileEmptyList, rows, cols, false, this)
         spreadView.init(engine!!.tileFullList.shuffled().toMutableList(), rows, spreadCols, true, this)
     }

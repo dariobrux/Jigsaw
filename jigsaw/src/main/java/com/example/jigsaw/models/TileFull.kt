@@ -19,4 +19,6 @@ class TileFull : Tile() {
     var position = 0
 
     var bitmap: Bitmap? = null
+
+    var tileDecorator: TileDecorator? = null
 }

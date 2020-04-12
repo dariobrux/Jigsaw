@@ -4,16 +4,13 @@ import android.graphics.Bitmap
 import android.util.Log
 import com.example.jigsaw.enums.CapMode
 import com.example.jigsaw.enums.TilePosition
-import com.example.jigsaw.models.TileEmpty
-import com.example.jigsaw.models.Index
-import com.example.jigsaw.models.Tile
-import com.example.jigsaw.models.TileFull
+import com.example.jigsaw.models.*
 
 /**
  * Created by Dario Bruzzese
  * on 4/5/2020
  */
-class Engine(bitmap: Bitmap, items: Int, private val rows: Int, private val cols: Int) {
+class Engine(bitmap: Bitmap, items: Int, private val rows: Int, private val cols: Int, tileDecorator: TileDecorator) {
 
     var tileFullList = arrayListOf<Tile>()
     var tileEmptyList = arrayListOf<Tile>()
@@ -103,6 +100,8 @@ class Engine(bitmap: Bitmap, items: Int, private val rows: Int, private val cols
                         bitmapSize.toInt(),
                         bitmapSize.toInt()
                     )
+
+                    this.tileDecorator = tileDecorator
 
                     position++
                 }
