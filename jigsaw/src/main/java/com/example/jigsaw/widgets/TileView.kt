@@ -2,14 +2,13 @@ package com.example.jigsaw.widgets
 
 import android.content.Context
 import android.graphics.*
-import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import com.example.jigsaw.Constants.DEFAULT_CAP_RADIUS
 import com.example.jigsaw.Constants.DEFAULT_TILE_SIZE
+import com.example.jigsaw.R
 import com.example.jigsaw.enums.CapMode
 import com.example.jigsaw.managers.PaintManager
-import com.example.jigsaw.managers.RectManager
 import com.example.jigsaw.models.TileFull
 
 
@@ -22,9 +21,17 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
     var tile = TileFull()
 
     private val pathDrawer = Path()
-    private val pathEraser = Path()
 
     constructor(context: Context) : this(context, null)
+
+    init {
+        val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.TileView)
+        tile.capLeft = CapMode.values()[typedArray.getInt(R.styleable.TileView_tv_capLeft, tile.capLeft.ordinal)]
+        tile.capTop = CapMode.values()[typedArray.getInt(R.styleable.TileView_tv_capTop, tile.capTop.ordinal)]
+        tile.capRight = CapMode.values()[typedArray.getInt(R.styleable.TileView_tv_capRight, tile.capRight.ordinal)]
+        tile.capBottom = CapMode.values()[typedArray.getInt(R.styleable.TileView_tv_capBottom, tile.capBottom.ordinal)]
+        typedArray.recycle()
+    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -40,87 +47,136 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
 
         if (isClearCanvasMode) {
             pathDrawer.reset()
-            pathEraser.reset()
             isClearCanvasMode = false
             return
         }
-        
+
         pathDrawer.reset()
-        pathEraser.reset()
 
-        val newRect: Rect = canvas.clipBounds
-        newRect.inset((-DEFAULT_CAP_RADIUS * 2).toInt(), (-DEFAULT_CAP_RADIUS * 2).toInt())  //make the rect larger
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // TODO check if this case works.
-            canvas.clipOutRect(newRect)
-        } else {
-            canvas.clipRect(newRect, Region.Op.REPLACE)
-        }
+//        val newRect: Rect = canvas.clipBounds
+//        newRect.inset((-DEFAULT_CAP_RADIUS * 2).toInt(), (-DEFAULT_CAP_RADIUS * 2).toInt())  //make the rect larger
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            // TODO check if this case works.
+//            canvas.clipOutRect(newRect)
+//        } else {
+//            canvas.clipRect(newRect, Region.Op.REPLACE)
+//        }
 
-        pathDrawer.addRect(RectManager.rectF, Path.Direction.CCW)
+        // left
+        pathDrawer.moveTo(0f, DEFAULT_TILE_SIZE.toFloat())
 
-        // Draw the left cap
+        val offsetLeft = 5f / 3f
         when (tile.capLeft) {
             CapMode.NONE -> {
-                // Do Nothing
+                // Do nothing
             }
-            CapMode.EMPTY -> {
-                pathEraser.addCircle(getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
-            }
-            CapMode.FULL -> {
-                pathDrawer.addCircle(-DEFAULT_CAP_RADIUS + getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
+            else -> {
+                pathDrawer.lineTo(0f, DEFAULT_TILE_SIZE / 2f + getCapRadiusToShow())
+                val offset = if (tile.capLeft == CapMode.FULL) {
+                    -offsetLeft
+                } else {
+                    offsetLeft
+                }
+                pathDrawer.cubicTo(
+                    offset * DEFAULT_CAP_RADIUS,
+                    DEFAULT_TILE_SIZE.toFloat(),
+                    offset * DEFAULT_CAP_RADIUS,
+                    0f,
+                    0f,
+                    DEFAULT_TILE_SIZE / 2f - getCapRadiusToShow()
+                )
             }
         }
 
-        // Draw the top cap
+        pathDrawer.lineTo(0f, 0f)
+
+        // top
+        val offsetTop = 5f / 3f
         when (tile.capTop) {
             CapMode.NONE -> {
-                // Do Nothing
+                // Do nothing
             }
-            CapMode.EMPTY -> {
-                pathEraser.addCircle(width / 2f, getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
-            }
-            CapMode.FULL -> {
-                pathDrawer.addCircle(width / 2f, -DEFAULT_CAP_RADIUS + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
+            else -> {
+                pathDrawer.lineTo(DEFAULT_TILE_SIZE / 2f - getCapRadiusToShow(), 0f)
+                val offset = if (tile.capTop == CapMode.FULL) {
+                    -offsetTop
+                } else {
+                    offsetTop
+                }
+                pathDrawer.cubicTo(
+                    0f,
+                    offset * DEFAULT_CAP_RADIUS,
+                    DEFAULT_TILE_SIZE.toFloat(),
+                    offset * DEFAULT_CAP_RADIUS,
+                    DEFAULT_TILE_SIZE / 2f + getCapRadiusToShow(),
+                    0f
+                )
             }
         }
 
-        // Draw the right cap
+        pathDrawer.lineTo(DEFAULT_TILE_SIZE.toFloat(), 0f)
+
+        // right
+        val offsetRight = 5f / 3f
         when (tile.capRight) {
             CapMode.NONE -> {
-                // Do Nothing
+                // Do nothing
             }
-            CapMode.EMPTY -> {
-                pathEraser.addCircle(width.toFloat() - getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
-            }
-            CapMode.FULL -> {
-                pathDrawer.addCircle(width.toFloat() + getCapRadiusToShow(), (height / 2f), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
+            else -> {
+                pathDrawer.lineTo(DEFAULT_TILE_SIZE.toFloat(), DEFAULT_TILE_SIZE / 2f - getCapRadiusToShow())
+                val offset = if (tile.capRight == CapMode.FULL) {
+                    offsetRight
+                } else {
+                    -offsetRight
+                }
+                pathDrawer.cubicTo(
+                    offset * DEFAULT_CAP_RADIUS + DEFAULT_TILE_SIZE,
+                    0f,
+                    offset * DEFAULT_CAP_RADIUS + DEFAULT_TILE_SIZE,
+                    DEFAULT_TILE_SIZE.toFloat(),
+                    DEFAULT_TILE_SIZE.toFloat(),
+                    DEFAULT_TILE_SIZE / 2f + getCapRadiusToShow()
+                )
             }
         }
 
-        // Draw the bottom cap
+        pathDrawer.lineTo(DEFAULT_TILE_SIZE.toFloat(), DEFAULT_TILE_SIZE.toFloat())
+
+        // bottom
+        val offsetBottom = 5f / 3f
         when (tile.capBottom) {
             CapMode.NONE -> {
-                // Do Nothing
+                // Do nothing
             }
-            CapMode.EMPTY -> {
-                pathEraser.addCircle(width / 2f, height.toFloat() - getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
-            }
-            CapMode.FULL -> {
-                pathDrawer.addCircle(width / 2f, height.toFloat() + getCapRadiusToShow(), DEFAULT_CAP_RADIUS, Path.Direction.CCW)
+            else -> {
+                pathDrawer.lineTo(DEFAULT_TILE_SIZE / 2f + getCapRadiusToShow(), DEFAULT_TILE_SIZE.toFloat())
+                val offset = if (tile.capBottom == CapMode.FULL) {
+                    offsetBottom
+                } else {
+                    -offsetBottom
+                }
+                pathDrawer.cubicTo(
+                    DEFAULT_TILE_SIZE.toFloat(),
+                    offset * DEFAULT_CAP_RADIUS + DEFAULT_TILE_SIZE,
+                    0f,
+                    offset * DEFAULT_CAP_RADIUS + DEFAULT_TILE_SIZE,
+                    DEFAULT_TILE_SIZE / 2f - getCapRadiusToShow(),
+                    DEFAULT_TILE_SIZE.toFloat()
+                )
             }
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            canvas.clipOutPath(pathEraser)
-        } else {
-            canvas.clipPath(pathEraser, Region.Op.DIFFERENCE)
-        }
+        pathDrawer.close()
 
         canvas.clipPath(pathDrawer)
 
         tile.bitmap?.let {
-            canvas.drawBitmap(it, -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), PaintManager.bitmapPaint)
+            canvas.drawBitmap(it, -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), -(DEFAULT_CAP_RADIUS + getCapRadiusToShow()), PaintManager.bitmap)
+
+            // Draw the border by default.
+            if (PaintManager.tileBorder.strokeWidth > 0) {
+                canvas.drawPath(pathDrawer, PaintManager.tileBorder)
+            }
         }
     }
 

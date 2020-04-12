@@ -13,24 +13,15 @@
         android:id="@+id/jigsawView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:jv_pieces="36"
+        app:jv_pieces="16"
         app:jv_borderBoard="@drawable/border"
         app:jv_spreadBorderCols="3"
+        app:jv_tileBorderColor="#ff0000"
+        app:jv_tileBorderWidth="0dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <com.example.jigsaw.widgets.Tile2View
-        android:id="@+id/tile2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:tv_capLeft="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

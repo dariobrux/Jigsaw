@@ -13,6 +13,7 @@ import com.example.jigsaw.R
 import com.example.jigsaw.adapters.GridAdapter
 import com.example.jigsaw.interfaces.OnJigsawListenerAdapter
 import com.example.jigsaw.interfaces.OnTileSelectedListener
+import com.example.jigsaw.managers.PaintManager
 import com.example.jigsaw.models.Tile
 import com.example.jigsaw.models.TileEmpty
 import com.example.jigsaw.models.TileFull
@@ -50,6 +51,8 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
         inflate(getContext(), R.layout.layout_jigsaw, this)
 
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.JigsawView)
+        PaintManager.tileBorder.color = typedArray.getColor(R.styleable.JigsawView_jv_tileBorderColor, PaintManager.tileBorder.color)
+        PaintManager.tileBorder.strokeWidth = typedArray.getDimension(R.styleable.JigsawView_jv_tileBorderWidth, PaintManager.tileBorder.strokeWidth)
         items = typedArray.getInt(R.styleable.JigsawView_jv_pieces, Constants.DEFAULT_ITEMS)
         typedArray.getDrawable(R.styleable.JigsawView_jv_borderBoard)?.let {
             gridView?.background = it

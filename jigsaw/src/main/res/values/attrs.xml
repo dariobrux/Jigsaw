@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="JigsawView">
-        <attr name="jv_pieces" format="integer" />
         <attr name="jv_borderBoard" format="reference" />
+        <attr name="jv_pieces" format="integer" />
         <attr name="jv_spreadBorderCols" format="integer" />
+        <attr name="jv_tileBorderWidth" format="dimension" />
+        <attr name="jv_tileBorderColor" format="color" />
     </declare-styleable>
 
-    <declare-styleable name="Tile2View">
+    <declare-styleable name="TileView">
         <attr name="tv_capLeft" format="enum" >
             <enum name="none" value="0" />
             <enum name="empty" value="1" />

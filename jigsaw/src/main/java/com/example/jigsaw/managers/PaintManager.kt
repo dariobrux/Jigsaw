@@ -11,8 +11,15 @@ import android.graphics.PorterDuffXfermode
  */
 object PaintManager {
 
-    val bitmapPaint = Paint().apply {
+    val bitmap = Paint().apply {
         xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
         color = Color.BLUE
+    }
+
+    val tileBorder = Paint().apply {
+        isAntiAlias = true
+        color = Color.BLACK
+        style = Paint.Style.STROKE
+        strokeWidth = 3f
     }
 }

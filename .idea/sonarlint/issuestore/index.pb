@@ -27,3 +27,5 @@ p
 @jigsaw/src/main/java/com/example/jigsaw/managers/PaintManager.kt,6\8\682ceeef440cc531d999fc90aaceac5cf6e20f21
 k
 ;jigsaw/src/main/java/com/example/jigsaw/widgets/TileView.kt,7\9\79a98a816b95b2b2055c204fb3f8822a4524273c
+h
+8jigsaw/src/main/java/com/example/jigsaw/enums/CapMode.kt,f\1\f1ce85b086557048e54ab9e33e4edd52c95f1a8f
