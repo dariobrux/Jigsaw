@@ -17,7 +17,7 @@
         android:clipToPadding="false"
         app:jv_borderBoard="@drawable/border"
         app:jv_pieces="16"
-        app:jv_spreadBorderCols="3"
+        app:jv_spreadBoardCols="3"
         app:jv_tileBorderColor="#ff0000"
         app:jv_tileBorderWidth="4dp"
         app:layout_constraintBottom_toBottomOf="parent"

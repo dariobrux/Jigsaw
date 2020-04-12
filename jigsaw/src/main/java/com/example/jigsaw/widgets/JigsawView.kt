@@ -68,7 +68,7 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
             cols = max(x, y)
         }
 
-        spreadCols = typedArray.getInt(R.styleable.JigsawView_jv_spreadBorderCols, cols)
+        spreadCols = typedArray.getInt(R.styleable.JigsawView_jv_spreadBoardCols, cols)
         typedArray.recycle()
     }
 
