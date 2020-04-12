@@ -3,5 +3,6 @@
     <declare-styleable name="JigsawView">
         <attr name="jv_pieces" format="integer" />
         <attr name="jv_borderBoard" format="reference" />
+        <attr name="jv_spreadBorderCols" format="integer" />
     </declare-styleable>
 </resources>

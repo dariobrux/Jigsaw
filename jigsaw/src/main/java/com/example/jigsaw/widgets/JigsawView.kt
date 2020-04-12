@@ -44,6 +44,8 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     private var selectedPosition: Int = -1
     private var selectedView: TileView? = null
 
+    private var spreadCols = 1
+
     init {
         inflate(getContext(), R.layout.layout_jigsaw, this)
 
@@ -52,7 +54,6 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
         typedArray.getDrawable(R.styleable.JigsawView_jv_borderBoard)?.let {
             gridView?.background = it
         }
-        typedArray.recycle()
 
         if (isPerfectSquare(items)) {
             rows = getRows()
@@ -63,6 +64,9 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
             rows = min(x, y)
             cols = max(x, y)
         }
+
+        spreadCols = typedArray.getInt(R.styleable.JigsawView_jv_spreadBorderCols, cols)
+        typedArray.recycle()
     }
 
 
@@ -94,7 +98,7 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     fun setBitmap(bitmap: Bitmap) {
         engine = Engine(bitmap, items, rows, cols)
         gridView.init(engine!!.tileEmptyList, rows, cols, false, this)
-        spreadView.init(engine!!.tileFullList.shuffled().toMutableList(), rows, cols, true, this)
+        spreadView.init(engine!!.tileFullList.shuffled().toMutableList(), rows, spreadCols, true, this)
     }
 
     fun setOnJigsawListener(listener: OnJigsawListenerAdapter) {

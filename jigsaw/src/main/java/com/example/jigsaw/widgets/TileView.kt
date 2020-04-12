@@ -44,6 +44,9 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
             isClearCanvasMode = false
             return
         }
+        
+        pathDrawer.reset()
+        pathEraser.reset()
 
         val newRect: Rect = canvas.clipBounds
         newRect.inset((-DEFAULT_CAP_RADIUS * 2).toInt(), (-DEFAULT_CAP_RADIUS * 2).toInt())  //make the rect larger

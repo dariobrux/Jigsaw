@@ -15,6 +15,7 @@
         android:layout_height="match_parent"
         app:jv_pieces="36"
         app:jv_borderBoard="@drawable/border"
+        app:jv_spreadBorderCols="3"
         android:clipChildren="false"
         android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
