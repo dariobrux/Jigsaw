@@ -2,17 +2,12 @@ package com.example.jigsaw.widgets
 
 import android.content.Context
 import android.graphics.*
-import android.os.Build
 import android.util.AttributeSet
 import android.view.View
-import com.example.jigsaw.Constants
 import com.example.jigsaw.Constants.DEFAULT_CAP_RADIUS
 import com.example.jigsaw.Constants.DEFAULT_TILE_SIZE
 import com.example.jigsaw.R
 import com.example.jigsaw.enums.CapMode
-import com.example.jigsaw.managers.PaintManager
-import com.example.jigsaw.managers.RectManager
-import com.example.jigsaw.models.Tile
 import com.example.jigsaw.models.TileFull
 
 
@@ -31,7 +26,10 @@ class Tile2View(context: Context, attributeSet: AttributeSet?) : View(context, a
 
     init {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.Tile2View)
-        tile.capTop =  CapMode.values()[typedArray.getInt(R.styleable.Tile2View_tv_capTop, tile.capTop.ordinal)]
+        tile.capLeft = CapMode.values()[typedArray.getInt(R.styleable.Tile2View_tv_capLeft, tile.capLeft.ordinal)]
+        tile.capTop = CapMode.values()[typedArray.getInt(R.styleable.Tile2View_tv_capTop, tile.capTop.ordinal)]
+        tile.capRight = CapMode.values()[typedArray.getInt(R.styleable.Tile2View_tv_capRight, tile.capRight.ordinal)]
+        tile.capBottom = CapMode.values()[typedArray.getInt(R.styleable.Tile2View_tv_capBottom, tile.capBottom.ordinal)]
         typedArray.recycle()
     }
 
@@ -57,32 +55,61 @@ class Tile2View(context: Context, attributeSet: AttributeSet?) : View(context, a
         pathDrawer.reset()
         pathEraser.reset()
 
-        val newRect: Rect = canvas.clipBounds
-        newRect.inset((-DEFAULT_CAP_RADIUS * 2).toInt(), (-DEFAULT_CAP_RADIUS * 2).toInt())  //make the rect larger
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            // TODO check if this case works.
-            canvas.clipOutRect(newRect)
-        } else {
-            canvas.clipRect(newRect, Region.Op.REPLACE)
+//        val newRect: Rect = canvas.clipBounds
+//        newRect.inset((-DEFAULT_CAP_RADIUS * 2).toInt(), (-DEFAULT_CAP_RADIUS * 2).toInt())  //make the rect larger
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            // TODO check if this case works.
+//            canvas.clipOutRect(newRect)
+//        } else {
+//            canvas.clipRect(newRect, Region.Op.REPLACE)
+//        }
+
+        // left
+        pathDrawer.moveTo(0f, DEFAULT_TILE_SIZE.toFloat())
+
+        val offsetLeft = 3f / 2f
+        when (tile.capLeft) {
+            CapMode.NONE -> {
+                // Do nothing
+            }
+            else -> {
+                pathDrawer.lineTo(0f, DEFAULT_TILE_SIZE / 2f + getCapRadiusToShow())
+                val offset = if (tile.capLeft == CapMode.FULL) {
+                    -offsetLeft
+                } else {
+                    offsetLeft
+                }
+                pathDrawer.cubicTo(
+                    offset * DEFAULT_CAP_RADIUS,
+                    DEFAULT_TILE_SIZE.toFloat(),
+                    offset * DEFAULT_CAP_RADIUS,
+                    0f,
+                    0f,
+                    DEFAULT_TILE_SIZE / 2f - getCapRadiusToShow()
+                )
+            }
         }
 
-        // top
-        pathDrawer.moveTo(0f, 0f)
+        pathDrawer.lineTo(0f, 0f)
 
-        pathDrawer.lineTo(DEFAULT_TILE_SIZE / 2f - getCapRadiusToShow(), 0f)
 
-        val offset = 3f / 2f
-        pathDrawer.cubicTo(
-            0f,
-            -offset * DEFAULT_CAP_RADIUS,
-            DEFAULT_TILE_SIZE.toFloat(),
-            -offset * DEFAULT_CAP_RADIUS,
-            DEFAULT_TILE_SIZE / 2f + getCapRadiusToShow(),
-            0f
-        )
-
-        pathDrawer.lineTo(DEFAULT_TILE_SIZE.toFloat(), 0f)
-        canvas.drawLine(0f, 10f, DEFAULT_TILE_SIZE / 2f, 10f, Paint().apply { color = Color.RED })
+//        // top
+//        pathDrawer.moveTo(0f, 0f)
+//
+//        pathDrawer.lineTo(DEFAULT_TILE_SIZE / 2f - getCapRadiusToShow(), 0f)
+//
+//        val offset = 3f / 2f
+//        pathDrawer.cubicTo(
+//            0f,
+//            -offset * DEFAULT_CAP_RADIUS,
+//            DEFAULT_TILE_SIZE.toFloat(),
+//            -offset * DEFAULT_CAP_RADIUS,
+//            DEFAULT_TILE_SIZE / 2f + getCapRadiusToShow(),
+//            0f
+//        )
+//
+//        pathDrawer.lineTo(DEFAULT_TILE_SIZE.toFloat(), 0f)
+//        canvas.drawLine(0f, 10f, DEFAULT_TILE_SIZE / 2f, 10f, Paint().apply { color = Color.RED })
 
 //        pathDrawer.lineTo(DEFAULT_TILE_SIZE.toFloat(), DEFAULT_TILE_SIZE.toFloat())
 //
