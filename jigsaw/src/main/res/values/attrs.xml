@@ -5,4 +5,27 @@
         <attr name="jv_borderBoard" format="reference" />
         <attr name="jv_spreadBorderCols" format="integer" />
     </declare-styleable>
+
+    <declare-styleable name="Tile2View">
+        <attr name="tv_capLeft" format="enum" >
+            <enum name="none" value="0" />
+            <enum name="empty" value="1" />
+            <enum name="full" value="2" />
+        </attr>
+        <attr name="tv_capTop" format="enum" >
+            <enum name="none" value="0" />
+            <enum name="empty" value="1" />
+            <enum name="full" value="2" />
+        </attr>
+        <attr name="tv_capRight" format="enum" >
+            <enum name="none" value="0" />
+            <enum name="empty" value="1" />
+            <enum name="full" value="2" />
+        </attr>
+        <attr name="tv_capBottom" format="enum" >
+            <enum name="none" value="0" />
+            <enum name="empty" value="1" />
+            <enum name="full" value="2" />
+        </attr>
+    </declare-styleable>
 </resources>
