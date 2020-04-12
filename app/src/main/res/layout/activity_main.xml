@@ -4,24 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     android:clipChildren="false"
     android:clipToPadding="false"
+    android:padding="20dp"
     tools:context=".MainActivity">
 
     <com.example.jigsaw.widgets.JigsawView
         android:id="@+id/jigsawView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:jv_pieces="16"
-        app:jv_borderBoard="@drawable/border"
-        app:jv_spreadBorderCols="3"
-        app:jv_tileBorderColor="#ff0000"
-        app:jv_tileBorderWidth="0dp"
         android:clipChildren="false"
         android:clipToPadding="false"
+        app:jv_borderBoard="@drawable/border"
+        app:jv_pieces="16"
+        app:jv_spreadBorderCols="3"
+        app:jv_tileBorderColor="#ff0000"
+        app:jv_tileBorderWidth="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.jigsaw.widgets.TileView
+        android:id="@+id/tile2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tv_borderColor="#ff00ff"
+        app:tv_borderWidth="3dp"
+        app:tv_capBottom="full"
+        app:tv_capLeft="full"
+        app:tv_capRight="full"
+        app:tv_capTop="full" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

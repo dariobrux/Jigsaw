@@ -9,6 +9,8 @@
     </declare-styleable>
 
     <declare-styleable name="TileView">
+        <attr name="tv_borderWidth" format="dimension" />
+        <attr name="tv_borderColor" format="color" />
         <attr name="tv_capLeft" format="enum" >
             <enum name="none" value="0" />
             <enum name="empty" value="1" />

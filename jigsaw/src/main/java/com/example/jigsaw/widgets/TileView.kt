@@ -22,6 +22,13 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
 
     private val pathDrawer = Path()
 
+    private val paintBorder = Paint().apply {
+        isAntiAlias = true
+        color = PaintManager.tileBorder.color
+        style = Paint.Style.STROKE
+        strokeWidth = PaintManager.tileBorder.strokeWidth
+    }
+
     constructor(context: Context) : this(context, null)
 
     init {
@@ -30,6 +37,8 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
         tile.capTop = CapMode.values()[typedArray.getInt(R.styleable.TileView_tv_capTop, tile.capTop.ordinal)]
         tile.capRight = CapMode.values()[typedArray.getInt(R.styleable.TileView_tv_capRight, tile.capRight.ordinal)]
         tile.capBottom = CapMode.values()[typedArray.getInt(R.styleable.TileView_tv_capBottom, tile.capBottom.ordinal)]
+        paintBorder.color = typedArray.getColor(R.styleable.TileView_tv_borderColor, paintBorder.color)
+        paintBorder.strokeWidth = typedArray.getDimension(R.styleable.TileView_tv_borderWidth, paintBorder.strokeWidth)
         typedArray.recycle()
     }
 
