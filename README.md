@@ -9,8 +9,8 @@ It consists to two boards. The first on the left contains the jigsaw to complete
 > Every tiles are randomly generated, and they match with all the adjacent tiles.
 
 ## How to use via XML   
-* `app:jv_pieces="16"` to set how many tiles you need.    
-* `app:jv_spreadBoardCols="3"` to set how many columns the spread board has.  
+* `app:jv_pieces="9"` to set how many tiles you need.    
+* `app:jv_spreadBoardCols="2"` to set how many columns the spread board has.  
 * `app:jv_tileBorderColor="#ff0000"` to set the border color of the tile.  
 * `app:jv_tileBorderWidth="4dp"` to set the border width of the tile.  
 * `app:jv_tileSize="@dimen/tileSize"` to set te size of the tile.  
@@ -25,13 +25,42 @@ This is a simple example with the widget built in a ConstraintLayout.
     android:clipChildren="false"  
     android:clipToPadding="false"  
     app:jv_borderBoard="@drawable/border"  
-    app:jv_pieces="16"  
-    app:jv_spreadBoardCols="3"  
-    app:jv_tileBorderColor="#ff0000"  
-    app:jv_tileBorderWidth="4dp"  
+    app:jv_pieces="9"  
+    app:jv_spreadBoardCols="2"  
+    app:jv_tileBorderColor="#000000"  
+    app:jv_tileBorderWidth="2dp"  
     app:jv_tileSize="@dimen/tileSize"  
     app:layout_constraintBottom_toBottomOf="parent"  
     app:layout_constraintStart_toStartOf="parent"  
     app:layout_constraintTop_toTopOf="parent" />
 ~~~~
-        
+
+## How to use via code (Kotlin)
+~~~~
+jigsawView.pieces = 9
+jigsawView.spreadCols = 2
+jigsawView.tileDecorator?.apply {
+    this.borderColor = Color.BLACK
+    this.borderWidth = 2f
+}
+jigsawView.tileSize = 150
+jigsawView.bitmap = BitmapFactory.decodeResource(resources, R.drawable.genoa)
+~~~~
+
+You can also invoke the callbacks by `OnJigsawListenerAdapter` or the `OnJigsawListener`, via `jigsawView?.setOnJigsawListener()`
+~~~~
+jigsawView?.setOnJigsawListener(object : OnJigsawListenerAdapter() {
+
+    override fun onCompleted() {}   
+
+    override fun onTileDeselected(view: View, isInBoard: Boolean) {}
+
+    override fun onTileGenerated(view: View) {}
+
+    override fun onTileSelected(view: View) {}
+
+    override fun onTileSettled(view: View, isCorrectPosition: Boolean) {}
+
+    override fun onTileUnsettled(view: View) {}
+})
+~~~~
