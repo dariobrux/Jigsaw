@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        jigsawView?.pieces = 9
         jigsawView?.setBitmap(BitmapFactory.decodeResource(resources, R.drawable.genova))
         jigsawView?.setOnJigsawListener(object : OnJigsawListenerAdapter() {
 

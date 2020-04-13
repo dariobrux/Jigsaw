@@ -29,9 +29,22 @@ import kotlin.math.sqrt
 
 class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet), OnTileSelectedListener {
 
+    var pieces = 0
+    set(value) {
+        field = value
+        if (isPerfectSquare(value)) {
+            rows = getRows()
+            cols = getCols()
+        } else {
+            val x = getDivisor(value)
+            val y = value / x
+            rows = min(x, y)
+            cols = max(x, y)
+        }
+    }
+
     private var rows = 0
     private var cols = 0
-    private var items = 0
 
     private val listenerHolder = ListenerHolder()
     private var onJigsawListenerAdapter: OnJigsawListenerAdapter? = null
@@ -53,19 +66,9 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.JigsawView)
         tileDecorator.borderColor = typedArray.getColor(R.styleable.JigsawView_jv_tileBorderColor, tileDecorator.borderColor)
         tileDecorator.borderWidth = typedArray.getDimension(R.styleable.JigsawView_jv_tileBorderWidth, tileDecorator.borderWidth)
-        items = typedArray.getInt(R.styleable.JigsawView_jv_pieces, Constants.DEFAULT_ITEMS)
+        pieces = typedArray.getInt(R.styleable.JigsawView_jv_pieces, Constants.DEFAULT_ITEMS)
         typedArray.getDrawable(R.styleable.JigsawView_jv_borderBoard)?.let {
             gridView?.background = it
-        }
-
-        if (isPerfectSquare(items)) {
-            rows = getRows()
-            cols = getCols()
-        } else {
-            val x = getDivisor(items)
-            val y = items / x
-            rows = min(x, y)
-            cols = max(x, y)
         }
 
         spreadCols = typedArray.getInt(R.styleable.JigsawView_jv_spreadBoardCols, cols)
@@ -95,11 +98,11 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
         }
     }
 
-    private fun getRows(): Int = sqrt(items.toDouble()).toInt()
-    private fun getCols(): Int = sqrt(items.toDouble()).toInt()
+    private fun getRows(): Int = sqrt(pieces.toDouble()).toInt()
+    private fun getCols(): Int = sqrt(pieces.toDouble()).toInt()
 
     fun setBitmap(bitmap: Bitmap) {
-        engine = Engine(bitmap, items, rows, cols, tileDecorator)
+        engine = Engine(bitmap, pieces, rows, cols, tileDecorator)
         gridView.init(engine!!.tileEmptyList, rows, cols, false, this)
         spreadView.init(engine!!.tileFullList.shuffled().toMutableList(), rows, spreadCols, true, this)
     }
