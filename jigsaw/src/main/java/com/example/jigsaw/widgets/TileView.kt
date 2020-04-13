@@ -10,6 +10,7 @@ import com.example.jigsaw.Constants.DEFAULT_CAP_RADIUS
 import com.example.jigsaw.Constants.DEFAULT_TILE_SIZE
 import com.example.jigsaw.R
 import com.example.jigsaw.enums.CapMode
+import com.example.jigsaw.interfaces.OnJigsawListener
 import com.example.jigsaw.managers.PaintManager
 import com.example.jigsaw.models.TileFull
 
@@ -21,11 +22,11 @@ import com.example.jigsaw.models.TileFull
 class TileView(context: Context, attributeSet: AttributeSet?) : View(context, attributeSet) {
 
     var tile = TileFull()
-    set(value) {
-        field = value
-        paintBorder.color = value.tileDecorator?.borderColor ?: paintBorder.color
-        paintBorder.strokeWidth = value.tileDecorator?.borderWidth ?: paintBorder.strokeWidth
-    }
+        set(value) {
+            field = value
+            paintBorder.color = value.tileDecorator?.borderColor ?: paintBorder.color
+            paintBorder.strokeWidth = value.tileDecorator?.borderWidth ?: paintBorder.strokeWidth
+        }
 
     private val pathDrawer = Path()
 
@@ -35,6 +36,8 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
         style = Paint.Style.STROKE
         strokeWidth = 0f
     }
+
+    private var onJigsawListener: OnJigsawListener? = null
 
     constructor(context: Context) : this(context, null)
 
@@ -59,6 +62,10 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
         setMeasuredDimension(desiredWidth, desiredHeight)
     }
 
+    fun setOnJigsawListener(onJigsawListener: OnJigsawListener?) {
+        this.onJigsawListener = onJigsawListener
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
@@ -70,14 +77,6 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
 
         pathDrawer.reset()
 
-//        val newRect: Rect = canvas.clipBounds
-//        newRect.inset((-DEFAULT_CAP_RADIUS * 2).toInt(), (-DEFAULT_CAP_RADIUS * 2).toInt())  //make the rect larger
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            // TODO check if this case works.
-//            canvas.clipOutRect(newRect)
-//        } else {
-//            canvas.clipRect(newRect, Region.Op.REPLACE)
-//        }
 
         // left
         pathDrawer.moveTo(0f, DEFAULT_TILE_SIZE.toFloat())
@@ -194,6 +193,9 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
                 canvas.drawPath(pathDrawer, paintBorder)
             }
         }
+
+        onJigsawListener?.onTileGenerated(this)
+        onJigsawListener = null
     }
 
     private fun getCapRadiusToShow() = DEFAULT_CAP_RADIUS / 2

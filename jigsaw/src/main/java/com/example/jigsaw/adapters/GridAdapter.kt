@@ -119,7 +119,7 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
 
         init {
             if (!isSettled) {
-                onJigsawListenerAdapter?.onTileGenerated(tileView)
+                tileView.setOnJigsawListener(onJigsawListenerAdapter)
             }
         }
     }
