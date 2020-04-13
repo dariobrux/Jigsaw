@@ -54,6 +54,7 @@ class GridAdapter(private val context: Context, val itemList: MutableList<Tile>,
 
     private fun configureTileFullViewHolder(holder: TileFullViewHolder, position: Int) {
         val item = itemList[position] as TileFull
+        holder.tileView.toVisible()
         holder.tileView.tile = item
         holder.tileView.setOnClickListener {
             onTileSelectedListener?.onTileSelected(this, holder.tileView, item, position)
