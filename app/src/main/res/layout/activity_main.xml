@@ -9,7 +9,7 @@
     android:padding="20dp"
     tools:context=".MainActivity">
 
-    <com.example.jigsaw.widgets.JigsawView
+    <com.dariobrux.jigsaw.widgets.JigsawView
         android:id="@+id/jigsawView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.jigsaw.widgets.TileView
+    <com.dariobrux.jigsaw.widgets.TileView
         android:id="@+id/tile2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tv_bitmap="@drawable/genova"
+        app:tv_bitmap="@drawable/genoa"
         app:tv_borderColor="#ff00ff"
         app:tv_borderWidth="3dp"
         app:tv_capBottom="full"
