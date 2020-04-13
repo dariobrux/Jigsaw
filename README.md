@@ -4,8 +4,9 @@ This library is a simple Jigsaw for Android.
 
 ![Watch the video](https://github.com/dariobrux/Jigsaw/blob/master/preview.gif)
 
+It consists to two boards. The first on the left contains the jigsaw to complete. The second, on the right, is the *spread container*, and it contains all the tiles in random position.
 
-Every tiles are randomly generated, and they match with the adjacent else.
+> Every tiles are randomly generated, and they match with all the adjacent tiles.
 
 ## How to use via XML   
 * `app:jv_pieces="16"` to set how many tiles you need.    
@@ -15,7 +16,7 @@ Every tiles are randomly generated, and they match with the adjacent else.
 * `app:jv_tileSize="@dimen/tileSize"` to set te size of the tile.  
 * `app:jv_borderBoard="@drawable/border"` to set a border around the board.  
 \
-This is a simple example with the entire widget in a ConstraintLayout.  
+This is a simple example with the widget built in a ConstraintLayout.  
 ~~~~
 <com.dariobrux.jigsaw.widgets.JigsawView  
     android:id="@+id/jigsawView"  
