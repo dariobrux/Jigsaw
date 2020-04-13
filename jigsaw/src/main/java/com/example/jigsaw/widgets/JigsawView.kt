@@ -9,6 +9,7 @@ import com.example.jigsaw.Constants
 import com.example.jigsaw.Engine
 import com.example.jigsaw.R
 import com.example.jigsaw.adapters.GridAdapter
+import com.example.jigsaw.extensions.toInvisible
 import com.example.jigsaw.interfaces.OnJigsawListenerAdapter
 import com.example.jigsaw.interfaces.OnTileSelectedListener
 import com.example.jigsaw.models.Tile
@@ -164,12 +165,14 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
 
     private fun replaceTileAndRecycle(adapterFrom: GridAdapter, adapterTo: GridAdapter, view: TileView, tile: TileFull, position: Int) {
         adapterFrom.apply {
+            view.toInvisible()
             view.reset()
             itemList[position] = selectedTile!!
             prepareOnTileSettled()
             notifyItemChanged(position)
             post {
                 adapterTo.apply {
+                    selectedView?.toInvisible()
                     selectedView?.reset()
                     itemList[selectedPosition] = tile
                     prepareOnTileSettled()
@@ -186,6 +189,7 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
             return
         }
 
+        selectedView?.toInvisible()
         selectedView?.reset()
         selectedAdapter!!.itemList[selectedPosition] = TileEmpty()
         selectedAdapter!!.notifyItemChanged(selectedPosition)
