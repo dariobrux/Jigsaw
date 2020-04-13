@@ -5,6 +5,8 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.core.graphics.drawable.toBitmap
 import com.example.jigsaw.Constants.DEFAULT_CAP_RADIUS
 import com.example.jigsaw.Constants.DEFAULT_TILE_SIZE
@@ -19,7 +21,7 @@ import com.example.jigsaw.models.TileFull
  * Created by Dario Bruzzese
  * on 4/5/2020
  */
-class TileView(context: Context, attributeSet: AttributeSet?) : View(context, attributeSet) {
+class TileView(context: Context, attributeSet: AttributeSet?) : FrameLayout(context, attributeSet) {
 
     var tile = TileFull()
         set(value) {
@@ -66,8 +68,8 @@ class TileView(context: Context, attributeSet: AttributeSet?) : View(context, at
         this.onJigsawListener = onJigsawListener
     }
 
-    override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
+    override fun dispatchDraw(canvas: Canvas) {
+        super.dispatchDraw(canvas)
 
         if (isClearCanvasMode) {
             pathDrawer.reset()

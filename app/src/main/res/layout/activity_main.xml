@@ -20,7 +20,7 @@
         app:jv_spreadBoardCols="3"
         app:jv_tileBorderColor="#ff0000"
         app:jv_tileBorderWidth="4dp"
-        app:jv_tileSize="100dp"
+        app:jv_tileSize="@dimen/tileSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -39,6 +39,7 @@
         app:tv_capBottom="full"
         app:tv_capLeft="full"
         app:tv_capRight="full"
+        android:visibility="gone"
         app:tv_capTop="full" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
