@@ -29,6 +29,15 @@ import kotlin.math.sqrt
 
 class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet), OnTileSelectedListener {
 
+    var bitmap: Bitmap? = null
+        set(value) {
+            field = value
+            if (value == null) return
+            engine = Engine(value, pieces, rows, cols, tileDecorator)
+            gridView.init(engine!!.tileEmptyList, rows, cols, false, this)
+            spreadView.init(engine!!.tileFullList.shuffled().toMutableList(), rows, spreadCols, true, this)
+        }
+
     var pieces = 0
         set(value) {
             field = value
@@ -43,18 +52,16 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
             }
         }
 
-    var bitmap: Bitmap? = null
-        set(value) {
-            field = value
-            if (value == null) return
-            engine = Engine(value, pieces, rows, cols, tileDecorator)
-            gridView.init(engine!!.tileEmptyList, rows, cols, false, this)
-            spreadView.init(engine!!.tileFullList.shuffled().toMutableList(), rows, spreadCols, true, this)
-        }
-
     var spreadCols = 1
 
     var tileDecorator = TileDecorator()
+
+    var tileSize = Constants.DEFAULT_TILE_SIZE
+    set(value) {
+        field = value
+        Constants.DEFAULT_TILE_SIZE = value
+        Constants.DEFAULT_CAP_RADIUS = Constants.DEFAULT_TILE_SIZE / 6f
+    }
 
     private var rows = 0
     private var cols = 0
@@ -76,6 +83,7 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
         tileDecorator.borderColor = typedArray.getColor(R.styleable.JigsawView_jv_tileBorderColor, tileDecorator.borderColor)
         tileDecorator.borderWidth = typedArray.getDimension(R.styleable.JigsawView_jv_tileBorderWidth, tileDecorator.borderWidth)
         pieces = typedArray.getInt(R.styleable.JigsawView_jv_pieces, Constants.DEFAULT_ITEMS)
+        tileSize = typedArray.getDimension(R.styleable.JigsawView_jv_tileSize, Constants.DEFAULT_TILE_SIZE.toFloat()).toInt()
         typedArray.getDrawable(R.styleable.JigsawView_jv_borderBoard)?.let {
             gridView?.background = it
         }

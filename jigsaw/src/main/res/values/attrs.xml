@@ -6,6 +6,7 @@
         <attr name="jv_spreadBoardCols" format="integer" />
         <attr name="jv_tileBorderWidth" format="dimension" />
         <attr name="jv_tileBorderColor" format="color" />
+        <attr name="jv_tileSize" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="TileView">

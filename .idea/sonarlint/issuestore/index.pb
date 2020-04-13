@@ -29,3 +29,13 @@ k
 ;jigsaw/src/main/java/com/example/jigsaw/widgets/TileView.kt,7\9\79a98a816b95b2b2055c204fb3f8822a4524273c
 h
 8jigsaw/src/main/java/com/example/jigsaw/enums/CapMode.kt,f\1\f1ce85b086557048e54ab9e33e4edd52c95f1a8f
+j
+:jigsaw/src/main/java/com/example/jigsaw/models/TileFull.kt,c\a\cad9723a6c547c23db57bd25d67d394d2dde9dd8
+f
+6jigsaw/src/main/java/com/example/jigsaw/models/Tile.kt,5\6\566b4afc861f0ff09d639710af4e7d55f5e50af7
+g
+7jigsaw/src/main/java/com/example/jigsaw/models/Index.kt,d\c\dc487ed877b63accdcaf647d261a22f461949b24
+o
+?jigsaw/src/main/java/com/example/jigsaw/models/TileDecorator.kt,8\e\8ee5b754293b885f4eecce683333ee10c8342eb2
+k
+;jigsaw/src/main/java/com/example/jigsaw/models/TileEmpty.kt,1\e\1efc0f75557b79ce054ef895bbd05a880368206d

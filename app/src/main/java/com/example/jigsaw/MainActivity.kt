@@ -19,9 +19,10 @@ class MainActivity : AppCompatActivity() {
         jigsawView?.pieces = 9
         jigsawView?.spreadCols = 2
         jigsawView?.tileDecorator?.apply {
-            this.borderColor = Color.GREEN
-            this.borderWidth = 10f
+            this.borderColor = Color.BLACK
+            this.borderWidth = 2f
         }
+        jigsawView?.tileSize = 150
         jigsawView?.bitmap = BitmapFactory.decodeResource(resources, R.drawable.genova)
         jigsawView?.setOnJigsawListener(object : OnJigsawListenerAdapter() {
 
