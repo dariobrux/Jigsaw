@@ -52,6 +52,8 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
             spreadView.init(engine!!.tileFullList.shuffled().toMutableList(), rows, spreadCols, true, this)
         }
 
+    var spreadCols = 1
+
     private var rows = 0
     private var cols = 0
 
@@ -64,8 +66,6 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     private var selectedTile: Tile? = null
     private var selectedPosition: Int = -1
     private var selectedView: TileView? = null
-
-    private var spreadCols = 1
 
     private var tileDecorator = TileDecorator()
 
