@@ -1,13 +1,12 @@
 package com.example.jigsaw
 
-import android.content.res.ColorStateList
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.jigsaw.interfaces.OnJigsawListenerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -19,6 +18,10 @@ class MainActivity : AppCompatActivity() {
 
         jigsawView?.pieces = 9
         jigsawView?.spreadCols = 2
+        jigsawView?.tileDecorator?.apply {
+            this.borderColor = Color.GREEN
+            this.borderWidth = 10f
+        }
         jigsawView?.bitmap = BitmapFactory.decodeResource(resources, R.drawable.genova)
         jigsawView?.setOnJigsawListener(object : OnJigsawListenerAdapter() {
 

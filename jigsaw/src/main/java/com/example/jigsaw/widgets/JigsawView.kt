@@ -54,6 +54,8 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
 
     var spreadCols = 1
 
+    var tileDecorator = TileDecorator()
+
     private var rows = 0
     private var cols = 0
 
@@ -66,8 +68,6 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
     private var selectedTile: Tile? = null
     private var selectedPosition: Int = -1
     private var selectedView: TileView? = null
-
-    private var tileDecorator = TileDecorator()
 
     init {
         inflate(getContext(), R.layout.layout_jigsaw, this)
