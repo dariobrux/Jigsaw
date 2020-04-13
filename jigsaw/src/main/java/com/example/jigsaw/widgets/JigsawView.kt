@@ -30,18 +30,27 @@ import kotlin.math.sqrt
 class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(context, attributeSet), OnTileSelectedListener {
 
     var pieces = 0
-    set(value) {
-        field = value
-        if (isPerfectSquare(value)) {
-            rows = getRows()
-            cols = getCols()
-        } else {
-            val x = getDivisor(value)
-            val y = value / x
-            rows = min(x, y)
-            cols = max(x, y)
+        set(value) {
+            field = value
+            if (isPerfectSquare(value)) {
+                rows = getRows()
+                cols = getCols()
+            } else {
+                val x = getDivisor(value)
+                val y = value / x
+                rows = min(x, y)
+                cols = max(x, y)
+            }
         }
-    }
+
+    var bitmap: Bitmap? = null
+        set(value) {
+            field = value
+            if (value == null) return
+            engine = Engine(value, pieces, rows, cols, tileDecorator)
+            gridView.init(engine!!.tileEmptyList, rows, cols, false, this)
+            spreadView.init(engine!!.tileFullList.shuffled().toMutableList(), rows, spreadCols, true, this)
+        }
 
     private var rows = 0
     private var cols = 0
@@ -100,12 +109,6 @@ class JigsawView(context: Context, attributeSet: AttributeSet) : FrameLayout(con
 
     private fun getRows(): Int = sqrt(pieces.toDouble()).toInt()
     private fun getCols(): Int = sqrt(pieces.toDouble()).toInt()
-
-    fun setBitmap(bitmap: Bitmap) {
-        engine = Engine(bitmap, pieces, rows, cols, tileDecorator)
-        gridView.init(engine!!.tileEmptyList, rows, cols, false, this)
-        spreadView.init(engine!!.tileFullList.shuffled().toMutableList(), rows, spreadCols, true, this)
-    }
 
     fun setOnJigsawListener(listener: OnJigsawListenerAdapter) {
         this.onJigsawListenerAdapter = listener

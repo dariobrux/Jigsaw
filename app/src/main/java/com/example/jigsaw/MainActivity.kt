@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         jigsawView?.pieces = 9
-        jigsawView?.setBitmap(BitmapFactory.decodeResource(resources, R.drawable.genova))
+        jigsawView?.bitmap = BitmapFactory.decodeResource(resources, R.drawable.genova)
         jigsawView?.setOnJigsawListener(object : OnJigsawListenerAdapter() {
 
             override fun onCompleted() {
