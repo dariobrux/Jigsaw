@@ -1,6 +1,7 @@
 package com.example.jigsaw
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import com.example.jigsaw.enums.CapMode
 import com.example.jigsaw.enums.TilePosition
@@ -23,6 +24,10 @@ class Engine(bitmap: Bitmap, items: Int, private val rows: Int, private val cols
         val currentBottomCapList = mutableListOf<CapMode>()
 
         var position = 0
+
+        // Scale the bitmap to fit
+        val bitmapSize = Constants.DEFAULT_TILE_SIZE + 2 * (Constants.DEFAULT_CAP_RADIUS + getCapRadiusToShow())
+        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, cols * bitmapSize.toInt(), rows * bitmapSize.toInt(), true)
 
         repeat(rows) { i ->
             repeat(cols) { j ->
@@ -91,10 +96,8 @@ class Engine(bitmap: Bitmap, items: Int, private val rows: Int, private val cols
                     val iIndex = 0 + (Constants.DEFAULT_TILE_SIZE * j)
                     val jIndex = 0 + (Constants.DEFAULT_TILE_SIZE * i)
 
-                    val bitmapSize = Constants.DEFAULT_TILE_SIZE + 2 * (Constants.DEFAULT_CAP_RADIUS + getCapRadiusToShow())
-
                     this.bitmap = Bitmap.createBitmap(
-                        bitmap,
+                        scaledBitmap,
                         iIndex,
                         jIndex,
                         bitmapSize.toInt(),
