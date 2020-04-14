@@ -4,7 +4,7 @@ This library is a simple Jigsaw for Android.
 
 ![Watch the video](https://github.com/dariobrux/Jigsaw/blob/master/preview.gif)
 
-It consists to two boards. The first on the left contains the jigsaw to complete. The second, on the right, is the *spread container*, and it contains all the tiles in random position.
+It consists to two boards. The first on the left is the *jigsaw board* and it contains the jigsaw to complete. The second, on the right, is the *spread container*, and it contains all the tiles in random position.
 
 > Every tiles are randomly generated, and they match with all the adjacent tiles.
 
@@ -45,22 +45,24 @@ jigsawView.tileDecorator?.apply {
 }
 jigsawView.tileSize = 150
 jigsawView.bitmap = BitmapFactory.decodeResource(resources, R.drawable.genoa)
+jigsawView.setOnJigsawListener(this)
 ~~~~
 
-You can also invoke the callbacks by `OnJigsawListenerAdapter` or the `OnJigsawListener`, via `jigsawView?.setOnJigsawListener()`
+You can invoke the callbacks by `OnJigsawListenerAdapter` or the `OnJigsawListener`, via `jigsawView.setOnJigsawListener()`
+* `onCompleted()` invoked at the end, when the jigsaw is completed having all the tiles at the right position.
+* `onTileSelected(view: View)` invoked when tap on a tile.
+* `onTileDeselected(view: View, isInBoard: Boolean)` invoked when the previously tapped tile is deselected. The parameter `isInBoard` check if the tile is deselected on the jigsaw board or on the spread container.
+* `onTileGenerated(view: View)` invoked the first time, when the tiles are disposed on the spread container.
+* `onTileSettled(view: View, isCorrectPosition: Boolean)` invoked when the tile is put on the jigsaw board, and `isCorrectPosition` tells if this tile is in the correct position or not.
+* `onTileUnsettled(view: View)` invoked when the tile is removed from the board view and put on the spread container.
 ~~~~
-jigsawView?.setOnJigsawListener(object : OnJigsawListenerAdapter() {
+jigsawView.setOnJigsawListener(object : OnJigsawListenerAdapter() {
 
     override fun onCompleted() {}   
-
     override fun onTileDeselected(view: View, isInBoard: Boolean) {}
-
     override fun onTileGenerated(view: View) {}
-
     override fun onTileSelected(view: View) {}
-
     override fun onTileSettled(view: View, isCorrectPosition: Boolean) {}
-
     override fun onTileUnsettled(view: View) {}
 })
 ~~~~
