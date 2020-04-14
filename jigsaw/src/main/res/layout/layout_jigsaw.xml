@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.jigsaw.widgets.GridView
+    <com.dariobrux.jigsaw.widgets.GridView
         android:id="@+id/gridView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.example.jigsaw.widgets.GridView
+    <com.dariobrux.jigsaw.widgets.GridView
         android:id="@+id/spreadView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
