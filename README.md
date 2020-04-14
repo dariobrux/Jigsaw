@@ -8,6 +8,23 @@ It consists to two boards. The first on the left is the *jigsaw board* and it co
 
 > Every tiles are randomly generated, and they match with all the adjacent tiles.
 
+## Import using Gradle
+Step 1. Add it in your root build.gradle at the end of repositories:
+~~~~
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+~~~~
+Step 2. Add the dependency
+~~~~
+dependencies {
+    implementation 'com.github.dariobrux:Jigsaw:1.0.0'
+}
+~~~~
+
 ## How to use via XML   
 * `app:jv_pieces="9"` to set how many tiles you need.    
 * `app:jv_spreadBoardCols="2"` to set how many columns the spread board has.  
