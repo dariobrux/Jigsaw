@@ -96,7 +96,7 @@ At the current version of the library:
 * Tile customization only for the border.
 * The tile sides are the same size.
 
-**I appreciate every kind of pull requests to improve this library**
+**I appreciate every kind of pull requests to improve this library.**
 
 ## License
 ~~~~
