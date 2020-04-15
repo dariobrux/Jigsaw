@@ -8,6 +8,8 @@ It consists to two boards. The first on the left is the *jigsaw board* and it co
 
 > Every tiles are randomly generated, and they match with all the adjacent tiles.
 
+You can set as many tiles as you like. 
+
 ## Import using Gradle
 Step 1. Add it in your root build.gradle at the end of repositories:
 ~~~~
@@ -83,6 +85,18 @@ jigsawView.setOnJigsawListener(object : OnJigsawListenerAdapter() {
     override fun onTileUnsettled(view: View) {}
 })
 ~~~~
+## Don't forget to...
+Put in the manifest `android:hardwareAccelerated="false"`.
+
+## Limitations (but I'm working on them)
+At the current version of the library:
+* Drag and drop is not available.  
+* The spread container is always at the right of the board view.
+* Tile customization only for the border.
+* The tile sides are the same size.
+
+**I appreciate every kind of pull requests to improve this library**
+
 ## License
 ~~~~
 Copyright 2020 Dario Bruzzese
