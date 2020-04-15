@@ -12,7 +12,7 @@ You can set as many tiles as you like.
 
 ## Import using Gradle
 Step 1. Add it in your root build.gradle at the end of repositories:
-~~~~
+~~~~ gradle
 allprojects {
     repositories {
         ...
@@ -21,7 +21,7 @@ allprojects {
 }
 ~~~~
 Step 2. Add the dependency
-~~~~
+~~~~ gradle
 dependencies {
     implementation 'com.github.dariobrux:Jigsaw:1.0.0'
 }
@@ -36,7 +36,7 @@ dependencies {
 * `app:jv_borderBoard="@drawable/border"` to set a border around the board.  
 \
 This is a simple example with the widget built in a ConstraintLayout.  
-~~~~
+~~~~ xml
 <com.dariobrux.jigsaw.widgets.JigsawView  
     android:id="@+id/jigsawView"  
     android:layout_width="match_parent"  
@@ -55,7 +55,7 @@ This is a simple example with the widget built in a ConstraintLayout.
 ~~~~
 
 ## How to use via code (Kotlin)
-~~~~
+~~~~ java
 jigsawView.pieces = 9
 jigsawView.spreadCols = 2
 jigsawView.tileDecorator?.apply {
@@ -74,7 +74,8 @@ You can invoke the callbacks by `OnJigsawListenerAdapter` or the `OnJigsawListen
 * `onTileGenerated(view: View)` invoked the first time, when the tiles are disposed on the spread container.
 * `onTileSettled(view: View, isCorrectPosition: Boolean)` invoked when the tile is put on the jigsaw board, and `isCorrectPosition` tells if this tile is in the correct position or not.
 * `onTileUnsettled(view: View)` invoked when the tile is removed from the board view and put on the spread container.
-~~~~
+
+~~~~ kotlin
 jigsawView.setOnJigsawListener(object : OnJigsawListenerAdapter() {
 
     override fun onCompleted() {}   
