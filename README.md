@@ -6,7 +6,7 @@ This library is a simple Jigsaw for Android.
 
 It consists of two boards. The first on the left is the *jigsaw board* and it contains the jigsaw to complete. The second, on the right, is the *spread container*, and it contains all the tiles in a random position.
 
-> Every tiles are randomly generated, and they match with all the adjacent tiles.
+> Every tile is randomly generated, and they match with all the adjacent tiles.
 
 You can set as many tiles as you like. 
 
